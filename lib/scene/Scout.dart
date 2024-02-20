@@ -18,6 +18,7 @@ class _ScoutPageState extends State<ScoutPage> {
   IconData button3 = Icons.arrow_downward;
   IconData button4 = Icons.arrow_right;
   //edit this later
+  List<int> allPositions = List.generate(40, (index) => index);
   int playerPosition = 0;
   List<int> obstacles = [];
   List<int> collectables = [];
@@ -29,75 +30,75 @@ class _ScoutPageState extends State<ScoutPage> {
     return num;
   }
 
-  void moveLeft() {
-    setState(() {
-      if (playerPosition % cols != 0) {
-        playerPosition--;
-      }
-    });
-  }
-
-  bool checkElementAlreadyExists(element) {
-    return obstacles.contains(element) ||
-        collectables.contains(element) ||
-        enemies.contains(element);
-  }
-
-  void generateCollectables() {
-    while (collectables.length < 4) {
-      int collect = randomNumGenerator(rows * cols);
-      if (checkElementAlreadyExists(collect)) {
-        collectables.add(collect);
-      }
+  void generateCollectables(int count) {
+    for (int i = 0; i < count; i++) {
+      int index =
+          allPositions.removeAt(randomNumGenerator(allPositions.length));
+      collectables.add(index);
     }
   }
 
-  void generateObstacles() {
-    while (obstacles.length < 8) {
-      int num = randomNumGenerator(rows * cols);
-      if (checkElementAlreadyExists(num)) {
-        obstacles.add(num);
-      }
+  void generateObstacles(int count) {
+    for (int i = 0; i < count; i++) {
+      int index =
+          allPositions.removeAt(randomNumGenerator(allPositions.length));
+      obstacles.add(index);
     }
   }
 
-  void genearateEnemies() {
-    while (enemies.length < 3) {
-      int num = randomNumGenerator(rows * cols);
-      if (checkElementAlreadyExists(num)) {
-        enemies.add(num);
-      }
+  void generateEnemies(int count) {
+    for (int i = 0; i < count; i++) {
+      int index =
+          allPositions.removeAt(randomNumGenerator(allPositions.length));
+      enemies.add(index);
     }
   }
 
   @override
   void initState() {
-    // generateCollectables();
-    // generateObstacles();
-    // genearateEnemies();
-    print(collectables);
-    print(obstacles);
+    super.initState();
+    generateCollectables(4);
+    generateObstacles(8);
+    generateEnemies(3);
+  }
+
+  void moveLeft() {
+    int newPosition = playerPosition - 1;
+    setState(() {
+      if (playerPosition % cols != 0 &&
+          !isObstacle(newPosition) &&
+          !isEnemy(newPosition)) {
+        playerPosition--;
+      }
+    });
   }
 
   void moveRight() {
+    int newPosition = playerPosition + 1;
     setState(() {
-      if (playerPosition % cols != cols - 1) {
+      if (playerPosition % cols != cols - 1 && !isObstacle(newPosition)) {
         playerPosition++;
       }
     });
   }
 
   void moveUp() {
+    int newPosition = playerPosition - cols;
     setState(() {
-      if (playerPosition >= cols) {
+      if (playerPosition >= cols &&
+          !isObstacle(newPosition) &&
+          !isEnemy(newPosition)) {
         playerPosition -= cols;
       }
     });
   }
 
   void moveDown() {
+    int newPosition = playerPosition + cols;
     setState(() {
-      if (playerPosition < (rows - 1) * cols) {
+      if (playerPosition < (rows - 1) * cols &&
+          !isObstacle(newPosition) &&
+          !isEnemy(newPosition)) {
         playerPosition += cols;
       }
     });
@@ -133,11 +134,11 @@ class _ScoutPageState extends State<ScoutPage> {
                         decoration: BoxDecoration(
                             color: isPlayer(index)
                                 // isCollectable() : isObstacle(currne): isEnemy(): isPlayer()
-                                ? Colors.red
+                                ? Colors.blue
                                 : isCollectable(index)
-                                    ? Colors.yellow
+                                    ? Colors.grey
                                     : isEnemy(index)
-                                        ? Colors.blue
+                                        ? Colors.red
                                         : isObstacle(index)
                                             ? Colors.black
                                             : Colors.white),
