@@ -13,6 +13,7 @@ class _ScoutPageState extends State<ScoutPage> {
   String movement = "";
   int rows = 8;
   int cols = 5;
+  int collectableCount = 0;
   IconData button1 = Icons.arrow_left;
   IconData button2 = Icons.arrow_upward;
   IconData button3 = Icons.arrow_downward;
@@ -58,7 +59,7 @@ class _ScoutPageState extends State<ScoutPage> {
   void initState() {
     super.initState();
     generateCollectables(4);
-    generateObstacles(8);
+    generateObstacles(11);
     generateEnemies(3);
   }
 
@@ -69,6 +70,10 @@ class _ScoutPageState extends State<ScoutPage> {
           !isObstacle(newPosition) &&
           !isEnemy(newPosition)) {
         playerPosition--;
+        if (isCollectable(newPosition)) {
+          collectableCount++;
+          collectables.remove(newPosition);
+        }
       }
     });
   }
@@ -76,8 +81,14 @@ class _ScoutPageState extends State<ScoutPage> {
   void moveRight() {
     int newPosition = playerPosition + 1;
     setState(() {
-      if (playerPosition % cols != cols - 1 && !isObstacle(newPosition)) {
+      if (playerPosition % cols != cols - 1 &&
+          !isObstacle(newPosition) &&
+          !isEnemy(newPosition)) {
         playerPosition++;
+      }
+      if (isCollectable(newPosition)) {
+        collectableCount++;
+        collectables.remove(newPosition);
       }
     });
   }
@@ -90,6 +101,10 @@ class _ScoutPageState extends State<ScoutPage> {
           !isEnemy(newPosition)) {
         playerPosition -= cols;
       }
+      if (isCollectable(newPosition)) {
+        collectableCount++;
+        collectables.remove(newPosition);
+      }
     });
   }
 
@@ -100,6 +115,10 @@ class _ScoutPageState extends State<ScoutPage> {
           !isObstacle(newPosition) &&
           !isEnemy(newPosition)) {
         playerPosition += cols;
+      }
+      if (isCollectable(newPosition)) {
+        collectableCount++;
+        collectables.remove(newPosition);
       }
     });
   }
@@ -151,6 +170,7 @@ class _ScoutPageState extends State<ScoutPage> {
                       )),
             ),
           ),
+          Text("Garbage collected $collectableCount"),
           Wrap(
             children: [
               IconButton(
