@@ -10,9 +10,12 @@ class ScoutPage extends StatefulWidget {
 }
 
 class _ScoutPageState extends State<ScoutPage> {
-  String movement = "";
+  // String movement = "";
   int rows = 8;
   int cols = 5;
+  int totalEnemyCount = 3;
+  int totalObstacleCount = 8;
+  int totalCollectableCount = 4;
   IconData button1 = Icons.arrow_left;
   IconData button2 = Icons.arrow_upward;
   IconData button3 = Icons.arrow_downward;
@@ -28,6 +31,41 @@ class _ScoutPageState extends State<ScoutPage> {
     Random number = Random();
     int num = number.nextInt(max);
     return num;
+  }
+
+  int checkAvaliablePosition(currentPosition) {
+    if (allPositions.contains(currentPosition)) {
+      return currentPosition;
+    } else {
+      return checkAvaliablePosition(randomNumGenerator(allPositions.length));
+    }
+  }
+
+  bool isVisible(int checkPostion) {
+    // anythign up, down, left and right of the current positon is visible. everything else is not.
+
+    if (checkPostion == playerPosition) {
+      return true;
+    }
+    // check left
+    else if (checkPostion == playerPosition - 1 && playerPosition % cols != 0) {
+      return true;
+    }
+    // check right
+    else if (checkPostion == playerPosition + 1 && playerPosition % cols != 4) {
+      return true;
+    }
+    // check up
+    else if (checkPostion == playerPosition - cols && playerPosition >= cols) {
+      return true;
+    }
+    // check down
+    else if (checkPostion == playerPosition + cols &&
+        playerPosition < (rows - 1) * cols) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   void generateCollectables(int count) {
@@ -57,9 +95,9 @@ class _ScoutPageState extends State<ScoutPage> {
   @override
   void initState() {
     super.initState();
-    generateCollectables(4);
-    generateObstacles(8);
-    generateEnemies(3);
+    generateCollectables(totalCollectableCount);
+    generateObstacles(totalObstacleCount);
+    generateEnemies(totalEnemyCount);
   }
 
   void moveLeft() {
@@ -135,13 +173,23 @@ class _ScoutPageState extends State<ScoutPage> {
                             color: isPlayer(index)
                                 // isCollectable() : isObstacle(currne): isEnemy(): isPlayer()
                                 ? Colors.blue
-                                : isCollectable(index)
-                                    ? Colors.grey
-                                    : isEnemy(index)
-                                        ? Colors.red
-                                        : isObstacle(index)
-                                            ? Colors.black
-                                            : Colors.white),
+                                : isVisible(index)
+                                    ? isCollectable(index)
+                                        ? Colors.grey
+                                        : isEnemy(index)
+                                            ? Colors.red
+                                            : isObstacle(index)
+                                                ? Colors.black
+                                                : Colors.white
+                                    : Colors.black),
+
+                        // : isCollectable(index)
+                        //     ? Colors.grey
+                        //     : isEnemy(index)
+                        //         ? Colors.red
+                        //         : isObstacle(index)
+                        //             ? Colors.black
+                        // : Colors.white),
                         child: Center(
                           child: Text(
                             'Item $index',
