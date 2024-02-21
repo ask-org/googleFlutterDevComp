@@ -204,8 +204,7 @@ class _ScoutPageState extends State<ScoutPage> {
                                                     "assets/images/obstacles.png")
                                                 : const AssetImage(
                                                     "assets/images/ground.png")
-                                    : const AssetImage(
-                                        "assets/images/obstacles.png"),
+                                    : const AssetImage("assets/images/fog.png"),
                             fit: BoxFit.fill,
                           ),
                         ),
