@@ -8,6 +8,8 @@ class Player {
   int lightSource;
   List<int> obstacles = [];
 
+  Global global = Global();
+
   Player({
     required this.className,
     required this.carryingLoad,
@@ -21,11 +23,11 @@ class Player {
   }
 
   void moveLeft({required String intendedPosition}) {
-    if (!global.availableStates.contains(intendedPosition)) {
+    if (!Global.availableStates.contains(intendedPosition)) {
       throw Exception('Invalid position');
     }
 
-    if (position % global.cols != 0) {
+    if (position % global.rows != 0) {
       if (intendedPosition != 'obstacle' && intendedPosition != 'enemy') {
         position = position - 1;
       }
@@ -33,7 +35,7 @@ class Player {
   }
 
   void moveRight({required String intendedPosition}) {
-    if (!global.availableStates.contains(intendedPosition)) {
+    if (!Global.availableStates.contains(intendedPosition)) {
       throw Exception('Invalid position');
     }
     if (position % global.cols != global.cols - 1) {
@@ -44,23 +46,23 @@ class Player {
   }
 
   void moveUp({required String intendedPosition}) {
-    if (!global.availableStates.contains(intendedPosition)) {
+    if (!Global.availableStates.contains(intendedPosition)) {
       throw Exception('Invalid position');
     }
     if (position >= global.cols) {
       if (intendedPosition != 'obstacle' && intendedPosition != 'enemy') {
-        position = position - global.cols;
+        position = (position - global.cols) as int;
       }
     }
   }
 
   void moveDown({required String intendedPosition}) {
-    if (!global.availableStates.contains(intendedPosition)) {
+    if (!Global.availableStates.contains(intendedPosition)) {
       throw Exception('Invalid position');
     }
     if (position < (global.rows - 1) * global.cols) {
       if (intendedPosition != 'obstacle' && intendedPosition != 'enemy') {
-        position = position + global.cols;
+        position = (position + global.cols) as int;
       }
     }
   }

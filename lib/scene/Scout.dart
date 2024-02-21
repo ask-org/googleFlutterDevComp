@@ -1,6 +1,8 @@
 import 'dart:math';
 
+import 'package:ant_new/scout/global.dart';
 import 'package:ant_new/scout/player.dart';
+import 'package:ant_new/scout/utils.dart';
 import 'package:flutter/material.dart';
 
 class ScoutPage extends StatefulWidget {
@@ -11,23 +13,32 @@ class ScoutPage extends StatefulWidget {
 }
 
 class _ScoutPageState extends State<ScoutPage> {
-  // String movement = "";
-  int rows = 8;
-  int cols = 5;
-  int totalEnemyCount = 3;
-  int totalObstacleCount = 8;
-  int totalCollectableCount = 4;
+  Global global = Global();
+  Utils utils = Utils();
+  Player player = Player(
+    className: "medic",
+    carryingLoad: 2,
+    lightSource: 1,
+    health: 10,
+    position: 0,
+  );
+
   IconData button1 = Icons.arrow_left;
   IconData button2 = Icons.arrow_upward;
   IconData button3 = Icons.arrow_downward;
   IconData button4 = Icons.arrow_right;
+
+  bool checkVisible(checkPostion, playerPositon) {
+    return utils.isVisible(
+        checkPostion: checkPostion,
+        playerPosition: player.position,
+        rows: global.rows,
+        cols: global.cols);
+  }
+
   //edit this later
   List<int> allPositions = List.generate(40, (index) => index);
-  int playerPosition = 0;
 
-  List<int> obstacles = [];
-  List<int> collectables = [];
-  List<int> enemies = [];
   int collectableCount = 0;
 
   int randomNumGenerator(int max) {
@@ -44,139 +55,16 @@ class _ScoutPageState extends State<ScoutPage> {
     }
   }
 
-  bool isVisible(int checkPostion) {
-    // anythign up, down, left and right of the current positon is visible. everything else is not.
-
-    if (checkPostion == playerPosition) {
-      return true;
-    }
-    // check left
-    else if (checkPostion == playerPosition - 1 && playerPosition % cols != 0) {
-      return true;
-    }
-    // check right
-    else if (checkPostion == playerPosition + 1 && playerPosition % cols != 4) {
-      return true;
-    }
-    // check up
-    else if (checkPostion == playerPosition - cols && playerPosition >= cols) {
-      return true;
-    }
-    // check down
-    else if (checkPostion == playerPosition + cols &&
-        playerPosition < (rows - 1) * cols) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  void generateCollectables(int count) {
-    for (int i = 0; i < count; i++) {
-      int index =
-          allPositions.removeAt(randomNumGenerator(allPositions.length));
-      collectables.add(index);
-    }
-  }
-
-  void generateObstacles(int count) {
-    for (int i = 0; i < count; i++) {
-      int index =
-          allPositions.removeAt(randomNumGenerator(allPositions.length));
-      obstacles.add(index);
-    }
-  }
-
-  void generateEnemies(int count) {
-    for (int i = 0; i < count; i++) {
-      int index =
-          allPositions.removeAt(randomNumGenerator(allPositions.length));
-      enemies.add(index);
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    generateCollectables(4);
-    generateObstacles(8);
-    generateEnemies(3);
-  }
-
-  void moveLeft() {
-    int newPosition = playerPosition - 1;
-    setState(() {
-      if (playerPosition % cols != 0 &&
-          !isObstacle(newPosition) &&
-          !isEnemy(newPosition)) {
-        playerPosition--;
-        if (isCollectable(newPosition)) {
-          collectableCount++;
-          collectables.remove(newPosition);
-        }
-      }
-    });
-  }
-
-  void moveRight() {
-    int newPosition = playerPosition + 1;
-    setState(() {
-      if (playerPosition % cols != cols - 1 &&
-          !isObstacle(newPosition) &&
-          !isEnemy(newPosition)) {
-        playerPosition++;
-      }
-      if (isCollectable(newPosition)) {
-        collectableCount++;
-        collectables.remove(newPosition);
-      }
-    });
-  }
-
-  void moveUp() {
-    int newPosition = playerPosition - cols;
-    setState(() {
-      if (playerPosition >= cols &&
-          !isObstacle(newPosition) &&
-          !isEnemy(newPosition)) {
-        playerPosition -= cols;
-      }
-      if (isCollectable(newPosition)) {
-        collectableCount++;
-        collectables.remove(newPosition);
-      }
-    });
-  }
-
-  void moveDown() {
-    int newPosition = playerPosition + cols;
-    setState(() {
-      if (playerPosition < (rows - 1) * cols &&
-          !isObstacle(newPosition) &&
-          !isEnemy(newPosition)) {
-        playerPosition += cols;
-      }
-      if (isCollectable(newPosition)) {
-        collectableCount++;
-        collectables.remove(newPosition);
-      }
-    });
-  }
-
-  isCollectable(int currentPosition) {
-    return collectables.contains(currentPosition);
-  }
-
-  isObstacle(int currentPosition) {
-    return obstacles.contains(currentPosition);
-  }
-
-  isEnemy(int currentPosition) {
-    return enemies.contains(currentPosition);
+    utils.generateCollectables(global.totalCollectableCount);
+    utils.generateObstacles(global.totalObstacleCount);
+    utils.generateEnemies(global.totalEnemyCount);
   }
 
   isPlayer(int currentPosition) {
-    return currentPosition == playerPosition;
+    return currentPosition == player.position;
   }
 
   @override
@@ -188,20 +76,20 @@ class _ScoutPageState extends State<ScoutPage> {
             child: GridView.count(
               crossAxisCount: 5,
               children: List.generate(
-                  rows * cols,
+                  global.totalCells,
                   (index) => Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: isPlayer(index)
                                 ? const AssetImage("assets/images/player.png")
-                                : isVisible(index)
-                                    ? isCollectable(index)
+                                : checkVisible(index, player.position)
+                                    ? utils.isCollectable(index)
                                         ? const AssetImage(
                                             "assets/images/collectable.png")
-                                        : isEnemy(index)
+                                        : utils.isEnemy(index)
                                             ? const AssetImage(
                                                 "assets/images/enemy.png")
-                                            : isObstacle(index)
+                                            : utils.isObstacle(index)
                                                 ? const AssetImage(
                                                     "assets/images/obstacles.png")
                                                 : const AssetImage(
@@ -210,16 +98,6 @@ class _ScoutPageState extends State<ScoutPage> {
                             fit: BoxFit.fill,
                           ),
                         ),
-                        // color: isPlayer(index)
-                        //     // isCollectable() : isObstacle(currne): isEnemy(): isPlayer()
-                        //     ? Colors.blue
-                        //     : isCollectable(index)
-                        //         ? Colors.grey
-                        //         : isEnemy(index)
-                        //             ? Colors.red
-                        //             : isObstacle(index)
-                        //                 ? Colors.black
-                        //                 : Colors.white
                       )),
             ),
           ),
@@ -228,7 +106,11 @@ class _ScoutPageState extends State<ScoutPage> {
             children: [
               IconButton(
                 onPressed: () {
-                  moveLeft();
+                  setState(() {
+                    player.moveLeft(
+                        intendedPosition:
+                            utils.checkPosition(player.position - 1));
+                  });
                 },
                 icon: Icon(
                   button1,
@@ -237,7 +119,11 @@ class _ScoutPageState extends State<ScoutPage> {
               ),
               IconButton(
                 onPressed: () {
-                  moveUp();
+                  setState(() {
+                    player.moveUp(
+                        intendedPosition: utils.checkPosition(
+                            player.position - global.cols as int));
+                  });
                 },
                 icon: Icon(
                   button2,
@@ -246,7 +132,11 @@ class _ScoutPageState extends State<ScoutPage> {
               ),
               IconButton(
                 onPressed: () {
-                  moveDown();
+                  setState(() {
+                    player.moveDown(
+                        intendedPosition: utils.checkPosition(
+                            player.position + global.cols as int));
+                  });
                 },
                 icon: Icon(
                   button3,
@@ -255,7 +145,11 @@ class _ScoutPageState extends State<ScoutPage> {
               ),
               IconButton(
                 onPressed: () {
-                  moveRight();
+                  setState(() {
+                    player.moveRight(
+                        intendedPosition:
+                            utils.checkPosition(player.position + 1));
+                  });
                 },
                 icon: Icon(
                   button4,

@@ -1,5 +1,3 @@
-import "dart:math";
-
 import "package:ant_new/scout/player.dart";
 import "package:flutter_test/flutter_test.dart";
 
