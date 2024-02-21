@@ -132,59 +132,80 @@ class _ScoutPageState extends State<ScoutPage> {
                   rows * cols,
                   (index) => Container(
                         decoration: BoxDecoration(
-                            color: isPlayer(index)
-                                // isCollectable() : isObstacle(currne): isEnemy(): isPlayer()
-                                ? Colors.blue
+                          image: DecorationImage(
+                            image: isPlayer(index)
+                                ? const AssetImage("assets/images/player.png")
                                 : isCollectable(index)
-                                    ? Colors.grey
+                                    ? const AssetImage(
+                                        "assets/images/collectable.png")
                                     : isEnemy(index)
-                                        ? Colors.red
+                                        ? const AssetImage(
+                                            "assets/images/enemy.png")
                                         : isObstacle(index)
-                                            ? Colors.black
-                                            : Colors.white),
-                        child: Center(
-                          child: Text(
-                            'Item $index',
-                            style: Theme.of(context).textTheme.headlineSmall,
+                                            ? const AssetImage(
+                                                "assets/images/obstacles.png")
+                                            : const AssetImage(
+                                                "assets/images/ground.png"),
+                            fit: BoxFit.fill,
                           ),
+                          // color: isPlayer(index)
+                          //     // isCollectable() : isObstacle(currne): isEnemy(): isPlayer()
+                          //     ? Colors.blue
+                          //     : isCollectable(index)
+                          //         ? Colors.grey
+                          //         : isEnemy(index)
+                          //             ? Colors.red
+                          //             : isObstacle(index)
+                          //                 ? Colors.black
+                          //                 : Colors.white
                         ),
+                        // child: Center(
+                        //   child: Text(
+                        //     'Item $index',
+                        //     style: Theme.of(context).textTheme.headlineSmall,
+                        //   ),
+                        // ),
                       )),
             ),
           ),
           Wrap(
             children: [
               IconButton(
-                  onPressed: () {
-                    moveLeft();
-                  },
-                  icon: Icon(
-                    button1,
-                    size: 80,
-                  )),
+                onPressed: () {
+                  moveLeft();
+                },
+                icon: Icon(
+                  button1,
+                ),
+                iconSize: 60,
+              ),
               IconButton(
-                  onPressed: () {
-                    moveUp();
-                  },
-                  icon: Icon(
-                    button2,
-                    size: 80,
-                  )),
+                onPressed: () {
+                  moveUp();
+                },
+                icon: Icon(
+                  button2,
+                ),
+                iconSize: 60,
+              ),
               IconButton(
-                  onPressed: () {
-                    moveDown();
-                  },
-                  icon: Icon(
-                    button3,
-                    size: 80,
-                  )),
+                onPressed: () {
+                  moveDown();
+                },
+                icon: Icon(
+                  button3,
+                ),
+                iconSize: 60,
+              ),
               IconButton(
-                  onPressed: () {
-                    moveRight();
-                  },
-                  icon: Icon(
-                    button4,
-                    size: 80,
-                  )),
+                onPressed: () {
+                  moveRight();
+                },
+                icon: Icon(
+                  button4,
+                ),
+                iconSize: 60,
+              ),
             ],
           ),
         ],
