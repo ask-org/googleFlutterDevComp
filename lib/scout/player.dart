@@ -6,6 +6,7 @@ class Player {
   int position;
   int carryingLoad;
   int lightSource;
+  List<int> obstacles = [];
 
   Player({
     required this.className,
@@ -15,28 +16,69 @@ class Player {
     required this.position,
   });
 
-  void moveLeft() {
+  void setObstacles(List<int> newObstacles) {
+    obstacles = newObstacles;
+  }
+
+  void moveLeft({required String intendedPosition}) {
+    if (!global.availableStates.contains(intendedPosition)) {
+      throw Exception('Invalid position');
+    }
+
     if (position % global.cols != 0) {
-      position = position - 1;
+      if (intendedPosition != 'obstacle' && intendedPosition != 'enemy') {
+        position = position - 1;
+      }
     }
   }
 
-  void moveRight() {
+  void moveRight({required String intendedPosition}) {
+    if (!global.availableStates.contains(intendedPosition)) {
+      throw Exception('Invalid position');
+    }
     if (position % global.cols != global.cols - 1) {
-      position = position + 1;
+      if (intendedPosition != 'obstacle' && intendedPosition != 'enemy') {
+        position = position + 1;
+      }
     }
   }
 
-  void moveUp() {
+  void moveUp({required String intendedPosition}) {
+    if (!global.availableStates.contains(intendedPosition)) {
+      throw Exception('Invalid position');
+    }
     if (position >= global.cols) {
-      position = position - global.cols;
+      if (intendedPosition != 'obstacle' && intendedPosition != 'enemy') {
+        position = position - global.cols;
+      }
     }
   }
 
-  void moveDown() {
-    if (position < (global.rows - 1) * global.cols) {
-      position = position + global.cols;
+  void moveDown({required String intendedPosition}) {
+    if (!global.availableStates.contains(intendedPosition)) {
+      throw Exception('Invalid position');
     }
+    if (position < (global.rows - 1) * global.cols) {
+      if (intendedPosition != 'obstacle' && intendedPosition != 'enemy') {
+        position = position + global.cols;
+      }
+    }
+  }
+
+  // TODO: should delete the collectable if collected.
+  int collect(int existing) {
+    if (carryingLoad == 0) {
+      print("Cannot carry more weight");
+      return existing;
+    } else {
+      carryingLoad--;
+      return existing++;
+    }
+  }
+
+  // TODO: Implement attack method
+  void attack() {
+    print("Attacking");
   }
 
   // void move(

@@ -1,15 +1,29 @@
+import "dart:math";
+
 import "package:ant_new/scout/player.dart";
 import "package:flutter_test/flutter_test.dart";
 
 void main() {
-  test('Player move left', () {
+  test('Player should not move left if we send obstacle as intendedPostion',
+      () {
     Player player = Player(
         className: "medic",
         carryingLoad: 2,
         lightSource: 1,
         health: 10,
         position: 1);
-    player.moveLeft();
+    player.moveLeft(intendedPosition: 'obstacle');
+    expect(player.position, 1);
+  });
+
+  test('Player should move left if we send obstacle as intendedPostion', () {
+    Player player = Player(
+        className: "medic",
+        carryingLoad: 2,
+        lightSource: 1,
+        health: 10,
+        position: 1);
+    player.moveLeft(intendedPosition: 'empty');
     expect(player.position, 0);
   });
 
@@ -20,7 +34,7 @@ void main() {
         lightSource: 1,
         health: 10,
         position: 1);
-    player.moveRight();
+    player.moveRight(intendedPosition: 'empty');
     expect(player.position, 2);
   });
 
@@ -31,7 +45,7 @@ void main() {
         lightSource: 1,
         health: 10,
         position: 1);
-    player.moveUp();
+    player.moveUp(intendedPosition: 'empty');
     expect(player.position, 1);
   });
 
@@ -42,7 +56,29 @@ void main() {
         lightSource: 1,
         health: 10,
         position: 1);
-    player.moveDown();
+    player.moveDown(intendedPosition: 'empty');
     expect(player.position, 6);
+  });
+
+  test('Can collect if carry weight is not reached', () {
+    Player player = Player(
+        className: "medic",
+        carryingLoad: 2,
+        lightSource: 1,
+        health: 10,
+        position: 1);
+    player.collect(10);
+    expect(player.carryingLoad, 1);
+  });
+
+  test('Cannot collect if carry weight is reached', () {
+    Player player = Player(
+        className: "medic",
+        carryingLoad: 1,
+        lightSource: 1,
+        health: 10,
+        position: 1);
+    expect(player.collect(10), 10);
+    expect(player.carryingLoad, 0);
   });
 }

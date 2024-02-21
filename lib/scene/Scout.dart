@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:ant_new/scout/player.dart';
 import 'package:flutter/material.dart';
 
 class ScoutPage extends StatefulWidget {
@@ -23,6 +24,7 @@ class _ScoutPageState extends State<ScoutPage> {
   //edit this later
   List<int> allPositions = List.generate(40, (index) => index);
   int playerPosition = 0;
+
   List<int> obstacles = [];
   List<int> collectables = [];
   List<int> enemies = [];
