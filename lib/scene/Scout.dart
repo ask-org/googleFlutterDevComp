@@ -28,7 +28,7 @@ class _ScoutPageState extends State<ScoutPage> {
   IconData button3 = Icons.arrow_downward;
   IconData button4 = Icons.arrow_right;
 
-  bool checkVisible(checkPostion, playerPositon) {
+  bool checkVisible(checkPostion) {
     return utils.isVisible(
         checkPostion: checkPostion,
         playerPosition: player.position,
@@ -82,19 +82,19 @@ class _ScoutPageState extends State<ScoutPage> {
                           image: DecorationImage(
                             image: isPlayer(index)
                                 ? const AssetImage("assets/images/player.png")
-                                : checkVisible(index, player.position)
-                                    ? utils.isCollectable(index)
+                                // : checkVisible(index)
+                                : utils.isCollectable(index)
+                                    ? const AssetImage(
+                                        "assets/images/collectable.png")
+                                    : utils.isEnemy(index)
                                         ? const AssetImage(
-                                            "assets/images/collectable.png")
-                                        : utils.isEnemy(index)
+                                            "assets/images/enemy.png")
+                                        : utils.isObstacle(index)
                                             ? const AssetImage(
-                                                "assets/images/enemy.png")
-                                            : utils.isObstacle(index)
-                                                ? const AssetImage(
-                                                    "assets/images/obstacles.png")
-                                                : const AssetImage(
-                                                    "assets/images/ground.png")
-                                    : const AssetImage("assets/images/fog.png"),
+                                                "assets/images/obstacles.png")
+                                            : const AssetImage(
+                                                "assets/images/ground.png"),
+                            // : const AssetImage("assets/images/.png"),
                             fit: BoxFit.fill,
                           ),
                         ),

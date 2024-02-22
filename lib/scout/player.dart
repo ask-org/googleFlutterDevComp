@@ -27,7 +27,7 @@ class Player {
       throw Exception('Invalid position');
     }
 
-    if (position % global.rows != 0) {
+    if (position % global.cols != 0) {
       if (intendedPosition != 'obstacle' && intendedPosition != 'enemy') {
         position = position - 1;
       }
