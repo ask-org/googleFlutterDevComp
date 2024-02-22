@@ -99,7 +99,7 @@ class _ScoutPageState extends State<ScoutPage> {
                       )),
             ),
           ),
-          Text("Garbage collected $collectableCount"),
+          Text("Garbage collected ${global.fertilizer}"),
           Wrap(
             children: [
               IconButton(

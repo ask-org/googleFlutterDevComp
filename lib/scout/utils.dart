@@ -32,8 +32,7 @@ class Utils {
           description: "description",
           position: index,
           image: "image",
-          quantity: 1);
-      print(collectible.toString());
+          quantity: randomNumGenerator(5));
       collectables.add(collectible);
       // collectables.add(collectible);
     }

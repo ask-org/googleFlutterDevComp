@@ -1,4 +1,3 @@
-import "package:ant_new/scout/collectible.dart";
 import "package:ant_new/scout/global.dart";
 import "package:ant_new/scout/utils.dart";
 
@@ -7,7 +6,6 @@ class Player {
   int health;
   int position;
   int lightSource;
-  List<int> obstacles = [];
 
   Global global = Global();
   Utils utils = Utils();
@@ -19,27 +17,12 @@ class Player {
     required this.position,
   });
 
-  void setObstacles(List<int> newObstacles) {
-    obstacles = newObstacles;
-  }
-
-  // Collectible? findCollectible(int postion) {
-  //   for (int i = 0; i < utils.collectables.length; i++) {
-  //     if (utils.collectables[i].position == postion) {
-  //       return utils.collectables[i];
-  //     }
-  //   }
-  //   return null;
-  // }
-
   void deleteCollectibles() {
-    print("object");
-    print(Utils.collectables.length);
-
     for (int i = 0; i < Utils.collectables.length; i++) {
-      print(Utils.collectables[i].position);
       if (Utils.collectables[i].position == position) {
-        Utils.collectables.removeAt(i);
+        var data = Utils.collectables.removeAt(i);
+        global.fertilizerCount = data.quantity + global.fertilizer;
+        print(global.fertilizer);
       }
     }
   }
@@ -108,15 +91,4 @@ class Player {
   void attack() {
     print("Attacking");
   }
-
-  // void move(
-  //     {required int newPosition,
-  //     required int newCarryingLoad,
-  //     required int newLightSource,
-  //     required int newHealth}) {
-  //   position = newPosition;
-  //   carryingLoad = newCarryingLoad;
-  //   lightSource = newLightSource;
-  //   health = newHealth;
-  // }
 }
