@@ -1,18 +1,18 @@
 import "package:ant_new/scout/global.dart";
+import "package:ant_new/scout/utils.dart";
 
 class Player {
   String className;
   int health;
   int position;
-  int carryingLoad;
   int lightSource;
   List<int> obstacles = [];
 
   Global global = Global();
+  Utils utils = Utils();
 
   Player({
     required this.className,
-    required this.carryingLoad,
     required this.lightSource,
     required this.health,
     required this.position,
@@ -21,6 +21,36 @@ class Player {
   void setObstacles(List<int> newObstacles) {
     obstacles = newObstacles;
   }
+
+  // Collectible? findCollectible(int postion) {
+  //   for (int i = 0; i < utils.collectables.length; i++) {
+  //     if (utils.collectables[i].position == postion) {
+  //       return utils.collectables[i];
+  //     }
+  //   }
+  //   return null;
+  // }
+
+  void deleteCollectibles() {
+    print("object");
+    print(Utils.collectables.length);
+
+    for (int i = 0; i < Utils.collectables.length; i++) {
+      print(Utils.collectables[i].position);
+      if (Utils.collectables[i].position == position) {
+        Utils.collectables.removeAt(i);
+      }
+    }
+  }
+
+  // Collectible? findCollectible(int postion) {
+  //   for (int i = 0; i < utils.collectables.length; i++) {
+  //     if (utils.collectables[i].position == postion) {
+  //       return utils.collectables[i];
+  //     }
+  //   }
+  //   return null;
+  // }
 
   void moveLeft(
       {required String intendedPosition, required String characterType}) {
@@ -33,6 +63,9 @@ class Player {
     if (position % global.cols != 0) {
       if (intendedPosition != 'obstacle' && intendedPosition != 'enemy') {
         position = position - 1;
+        if (intendedPosition == 'collectable') {
+          deleteCollectibles();
+        }
       }
     }
   }
@@ -47,6 +80,9 @@ class Player {
     if (position % global.cols != global.cols - 1) {
       if (intendedPosition != 'obstacle' && intendedPosition != 'enemy') {
         position = position + 1;
+        if (intendedPosition == 'collectable') {
+          deleteCollectibles();
+        }
       }
     }
   }
@@ -62,6 +98,9 @@ class Player {
     if (position >= global.cols) {
       if (intendedPosition != 'obstacle' && intendedPosition != 'enemy') {
         position = (position - global.cols) as int;
+        if (intendedPosition == 'collectable') {
+          deleteCollectibles();
+        }
       }
     }
   }
@@ -76,20 +115,15 @@ class Player {
     if (position < (global.rows - 1) * global.cols) {
       if (intendedPosition != 'obstacle' && intendedPosition != 'enemy') {
         position = (position + global.cols) as int;
+        if (intendedPosition == 'collectable') {
+          deleteCollectibles();
+        }
       }
     }
   }
 
   // TODO: should delete the collectable if collected.
-  int collect(int existing) {
-    if (carryingLoad == 0) {
-      print("Cannot carry more weight");
-      return existing;
-    } else {
-      carryingLoad--;
-      return existing++;
-    }
-  }
+  // void collect(Collectible collectible) {}
 
   // TODO: Implement attack method
   void attack() {

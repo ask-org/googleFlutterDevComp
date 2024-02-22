@@ -1,5 +1,6 @@
 import 'dart:math';
 
+// import 'package:ant_new/scout/collectible.dart';
 import 'package:ant_new/scout/global.dart';
 import 'package:ant_new/scout/player.dart';
 import 'package:ant_new/scout/utils.dart';
@@ -17,7 +18,6 @@ class _ScoutPageState extends State<ScoutPage> {
   Utils utils = Utils();
   Player player = Player(
       className: 'medic', //can move when medic is selected
-      carryingLoad: 1,
       lightSource: 2,
       health: 5,
       position: 0);
@@ -37,8 +37,13 @@ class _ScoutPageState extends State<ScoutPage> {
         cols: global.cols);
   }
 
-  //edit this later
-  List<int> allPositions = List.generate(40, (index) => index);
+  @override
+  void initState() {
+    super.initState();
+    utils.generateCollectables(global.totalCollectableCount);
+    utils.generateObstacles(global.totalObstacleCount);
+    utils.generateEnemies(global.totalEnemyCount);
+  }
 
   int collectableCount = 0;
 
@@ -49,19 +54,12 @@ class _ScoutPageState extends State<ScoutPage> {
   }
 
   int checkAvaliablePosition(currentPosition) {
-    if (allPositions.contains(currentPosition)) {
+    if (utils.allPositions.contains(currentPosition)) {
       return currentPosition;
     } else {
-      return checkAvaliablePosition(randomNumGenerator(allPositions.length));
+      return checkAvaliablePosition(
+          randomNumGenerator(utils.allPositions.length));
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    utils.generateCollectables(global.totalCollectableCount);
-    utils.generateObstacles(global.totalObstacleCount);
-    utils.generateEnemies(global.totalEnemyCount);
   }
 
   isPlayer(int currentPosition) {
@@ -75,28 +73,28 @@ class _ScoutPageState extends State<ScoutPage> {
         children: [
           Expanded(
             child: GridView.count(
-              crossAxisCount: 5,
+              crossAxisCount: global.cols,
               children: List.generate(
-                  40,
+                  global.totalCells,
                   (index) => Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: isPlayer(index)
                                 ? AssetImage(
                                     "assets/images/$selectedCharacterType.png")
-                                : checkVisible(index)
-                                    ? utils.isCollectable(index)
+                                // : checkVisible(index)
+                                : utils.isCollectable(index)
+                                    ? const AssetImage(
+                                        "assets/images/collectable.png")
+                                    : utils.isEnemy(index)
                                         ? const AssetImage(
-                                            "assets/images/collectable.png")
-                                        : utils.isEnemy(index)
+                                            "assets/images/enemy.png")
+                                        : utils.isObstacle(index)
                                             ? const AssetImage(
-                                                "assets/images/enemy.png")
-                                            : utils.isObstacle(index)
-                                                ? const AssetImage(
-                                                    "assets/images/obstacles.png")
-                                                : const AssetImage(
-                                                    "assets/images/ground.png")
-                                    : const AssetImage("assets/images/fog.png"),
+                                                "assets/images/obstacles.png")
+                                            : const AssetImage(
+                                                "assets/images/ground.png"),
+                            // : const AssetImage("assets/images/fog.png"),
                             fit: BoxFit.fill,
                           ),
                         ),
