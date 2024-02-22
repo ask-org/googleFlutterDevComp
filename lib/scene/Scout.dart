@@ -23,6 +23,29 @@ class _ScoutPageState extends State<ScoutPage> {
     position: 0,
   );
 
+  Player scout = Player(
+      className: 'scout',
+      carryingLoad: 1,
+      lightSource: 2,
+      health: 5,
+      position: 0);
+
+  Player warrior = Player(
+      className: 'warrior',
+      carryingLoad: 1,
+      lightSource: 1,
+      health: 15,
+      position: 0);
+
+  Player collector = Player(
+      className: 'collector',
+      carryingLoad: 4,
+      lightSource: 1,
+      health: 10,
+      position: 0);
+
+  String selectedCharacter = 'scout';
+
   IconData button1 = Icons.arrow_left;
   IconData button2 = Icons.arrow_upward;
   IconData button3 = Icons.arrow_downward;
@@ -76,30 +99,95 @@ class _ScoutPageState extends State<ScoutPage> {
             child: GridView.count(
               crossAxisCount: 5,
               children: List.generate(
-                  global.totalCells,
+                  40,
                   (index) => Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: isPlayer(index)
                                 ? const AssetImage("assets/images/player.png")
-                                // : checkVisible(index)
-                                : utils.isCollectable(index)
-                                    ? const AssetImage(
-                                        "assets/images/collectable.png")
-                                    : utils.isEnemy(index)
+                                : checkVisible(index)
+                                    ? utils.isCollectable(index)
                                         ? const AssetImage(
-                                            "assets/images/enemy.png")
-                                        : utils.isObstacle(index)
+                                            "assets/images/collectable.png")
+                                        : utils.isEnemy(index)
                                             ? const AssetImage(
-                                                "assets/images/obstacles.png")
-                                            : const AssetImage(
-                                                "assets/images/ground.png"),
-                            // : const AssetImage("assets/images/.png"),
+                                                "assets/images/enemy.png")
+                                            : utils.isObstacle(index)
+                                                ? const AssetImage(
+                                                    "assets/images/obstacles.png")
+                                                : const AssetImage(
+                                                    "assets/images/ground.png")
+                                    : const AssetImage("assets/images/fog.png"),
                             fit: BoxFit.fill,
                           ),
                         ),
                       )),
             ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    selectedCharacter = scout.className;
+                  });
+                },
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: AssetImage("assets/images/player.png"))),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    selectedCharacter = collector.className;
+                  });
+                },
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: AssetImage("assets/images/player.png"))),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    selectedCharacter = player.className;
+                  });
+                },
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: AssetImage("assets/images/player.png"))),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    selectedCharacter = warrior.className;
+                  });
+                },
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: AssetImage("assets/images/player.png"))),
+                ),
+              ),
+            ],
           ),
           Text("Garbage collected $collectableCount"),
           Wrap(
