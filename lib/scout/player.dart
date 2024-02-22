@@ -22,7 +22,10 @@ class Player {
     obstacles = newObstacles;
   }
 
-  void moveLeft({required String intendedPosition}) {
+  void moveLeft(
+      {required String intendedPosition, required String characterType}) {
+    if (characterType != className) return;
+
     if (!Global.availableStates.contains(intendedPosition)) {
       throw Exception('Invalid position');
     }
@@ -34,7 +37,10 @@ class Player {
     }
   }
 
-  void moveRight({required String intendedPosition}) {
+  void moveRight(
+      {required String intendedPosition, required String characterType}) {
+    if (characterType != className) return;
+
     if (!Global.availableStates.contains(intendedPosition)) {
       throw Exception('Invalid position');
     }
@@ -45,7 +51,11 @@ class Player {
     }
   }
 
-  void moveUp({required String intendedPosition}) {
+  void moveUp(
+      {required String intendedPosition, required String characterType}) {
+    print(className);
+    if (characterType != className) return;
+
     if (!Global.availableStates.contains(intendedPosition)) {
       throw Exception('Invalid position');
     }
@@ -56,7 +66,10 @@ class Player {
     }
   }
 
-  void moveDown({required String intendedPosition}) {
+  void moveDown(
+      {required String intendedPosition, required String characterType}) {
+    if (characterType != className) return;
+
     if (!Global.availableStates.contains(intendedPosition)) {
       throw Exception('Invalid position');
     }

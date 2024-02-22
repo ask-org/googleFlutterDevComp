@@ -16,35 +16,13 @@ class _ScoutPageState extends State<ScoutPage> {
   Global global = Global();
   Utils utils = Utils();
   Player player = Player(
-    className: "medic",
-    carryingLoad: 2,
-    lightSource: 1,
-    health: 10,
-    position: 0,
-  );
-
-  Player scout = Player(
-      className: 'scout',
+      className: 'medic', //can move when medic is selected
       carryingLoad: 1,
       lightSource: 2,
       health: 5,
       position: 0);
 
-  Player warrior = Player(
-      className: 'warrior',
-      carryingLoad: 1,
-      lightSource: 1,
-      health: 15,
-      position: 0);
-
-  Player collector = Player(
-      className: 'collector',
-      carryingLoad: 4,
-      lightSource: 1,
-      health: 10,
-      position: 0);
-
-  String selectedCharacter = 'scout';
+  String selectedCharacterType = 'scout';
 
   IconData button1 = Icons.arrow_left;
   IconData button2 = Icons.arrow_upward;
@@ -104,7 +82,8 @@ class _ScoutPageState extends State<ScoutPage> {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: isPlayer(index)
-                                ? const AssetImage("assets/images/player.png")
+                                ? AssetImage(
+                                    "assets/images/$selectedCharacterType.png")
                                 : checkVisible(index)
                                     ? utils.isCollectable(index)
                                         ? const AssetImage(
@@ -130,63 +109,88 @@ class _ScoutPageState extends State<ScoutPage> {
               InkWell(
                 onTap: () {
                   setState(() {
-                    selectedCharacter = scout.className;
+                    selectedCharacterType = 'scout';
                   });
+                  print(selectedCharacterType);
                 },
                 child: Container(
                   height: 50,
                   width: 50,
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
+                  decoration: BoxDecoration(
+                      border: selectedCharacterType == 'scout'
+                          ? Border.all(color: Colors.blue, width: 2.0)
+                          : null,
+                      image: const DecorationImage(
                           fit: BoxFit.fill,
-                          image: AssetImage("assets/images/player.png"))),
+                          image: AssetImage("assets/images/scout.png"))),
                 ),
               ),
               InkWell(
                 onTap: () {
                   setState(() {
-                    selectedCharacter = collector.className;
+                    selectedCharacterType = 'warrior';
                   });
+                  print(selectedCharacterType);
                 },
                 child: Container(
                   height: 50,
                   width: 50,
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
+                  decoration: BoxDecoration(
+                      border: selectedCharacterType == 'warrior'
+                          ? Border.all(color: Colors.blue, width: 2.0)
+                          : null,
+                      image: const DecorationImage(
                           fit: BoxFit.fill,
-                          image: AssetImage("assets/images/player.png"))),
+                          image: AssetImage("assets/images/warrior.png"))),
                 ),
               ),
               InkWell(
                 onTap: () {
                   setState(() {
-                    selectedCharacter = player.className;
+                    selectedCharacterType = 'medic';
                   });
+                  print(selectedCharacterType);
                 },
                 child: Container(
                   height: 50,
                   width: 50,
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
+                  decoration: BoxDecoration(
+                      border: selectedCharacterType == 'medic'
+                          ? Border.all(color: Colors.blue, width: 2.0)
+                          : null,
+                      image: const DecorationImage(
                           fit: BoxFit.fill,
-                          image: AssetImage("assets/images/player.png"))),
+                          image: AssetImage("assets/images/medic.png"))),
                 ),
               ),
               InkWell(
                 onTap: () {
                   setState(() {
-                    selectedCharacter = warrior.className;
+                    selectedCharacterType = 'collector';
                   });
+                  print(selectedCharacterType);
                 },
                 child: Container(
                   height: 50,
                   width: 50,
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
+                  decoration: BoxDecoration(
+                      border: selectedCharacterType == 'collector'
+                          ? Border.all(color: Colors.blue, width: 2.0)
+                          : null,
+                      image: const DecorationImage(
                           fit: BoxFit.fill,
-                          image: AssetImage("assets/images/player.png"))),
+                          image: AssetImage("assets/images/collector.png"))),
                 ),
               ),
+            ],
+          ),
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text('scout'),
+              Text('warrior'),
+              Text('medic'),
+              Text('collector')
             ],
           ),
           Text("Garbage collected $collectableCount"),
@@ -197,7 +201,8 @@ class _ScoutPageState extends State<ScoutPage> {
                   setState(() {
                     player.moveLeft(
                         intendedPosition:
-                            utils.checkPosition(player.position - 1));
+                            utils.checkPosition(player.position - 1),
+                        characterType: selectedCharacterType);
                   });
                 },
                 icon: Icon(
@@ -210,7 +215,8 @@ class _ScoutPageState extends State<ScoutPage> {
                   setState(() {
                     player.moveUp(
                         intendedPosition: utils.checkPosition(
-                            player.position - global.cols as int));
+                            player.position - global.cols as int),
+                        characterType: selectedCharacterType);
                   });
                 },
                 icon: Icon(
@@ -223,7 +229,8 @@ class _ScoutPageState extends State<ScoutPage> {
                   setState(() {
                     player.moveDown(
                         intendedPosition: utils.checkPosition(
-                            player.position + global.cols as int));
+                            player.position + global.cols as int),
+                        characterType: selectedCharacterType);
                   });
                 },
                 icon: Icon(
@@ -236,7 +243,8 @@ class _ScoutPageState extends State<ScoutPage> {
                   setState(() {
                     player.moveRight(
                         intendedPosition:
-                            utils.checkPosition(player.position + 1));
+                            utils.checkPosition(player.position + 1),
+                        characterType: selectedCharacterType);
                   });
                 },
                 icon: Icon(

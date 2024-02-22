@@ -10,7 +10,7 @@ void main() {
         lightSource: 1,
         health: 10,
         position: 1);
-    player.moveLeft(intendedPosition: 'obstacle');
+    player.moveLeft(intendedPosition: 'obstacle', characterType: 'scout');
     expect(player.position, 1);
   });
 
