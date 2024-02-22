@@ -1,5 +1,6 @@
 import 'dart:math';
 
+// import 'package:ant_new/scout/collectible.dart';
 import 'package:ant_new/scout/global.dart';
 import 'package:ant_new/scout/player.dart';
 import 'package:ant_new/scout/utils.dart';
@@ -17,7 +18,6 @@ class _ScoutPageState extends State<ScoutPage> {
   Utils utils = Utils();
   Player player = Player(
     className: "medic",
-    carryingLoad: 2,
     lightSource: 1,
     health: 10,
     position: 0,
@@ -36,8 +36,13 @@ class _ScoutPageState extends State<ScoutPage> {
         cols: global.cols);
   }
 
-  //edit this later
-  List<int> allPositions = List.generate(40, (index) => index);
+  @override
+  void initState() {
+    super.initState();
+    utils.generateCollectables(global.totalCollectableCount);
+    utils.generateObstacles(global.totalObstacleCount);
+    utils.generateEnemies(global.totalEnemyCount);
+  }
 
   int collectableCount = 0;
 
@@ -48,19 +53,12 @@ class _ScoutPageState extends State<ScoutPage> {
   }
 
   int checkAvaliablePosition(currentPosition) {
-    if (allPositions.contains(currentPosition)) {
+    if (utils.allPositions.contains(currentPosition)) {
       return currentPosition;
     } else {
-      return checkAvaliablePosition(randomNumGenerator(allPositions.length));
+      return checkAvaliablePosition(
+          randomNumGenerator(utils.allPositions.length));
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    utils.generateCollectables(global.totalCollectableCount);
-    utils.generateObstacles(global.totalObstacleCount);
-    utils.generateEnemies(global.totalEnemyCount);
   }
 
   isPlayer(int currentPosition) {
@@ -74,7 +72,7 @@ class _ScoutPageState extends State<ScoutPage> {
         children: [
           Expanded(
             child: GridView.count(
-              crossAxisCount: 5,
+              crossAxisCount: global.cols,
               children: List.generate(
                   global.totalCells,
                   (index) => Container(
@@ -94,7 +92,7 @@ class _ScoutPageState extends State<ScoutPage> {
                                                 "assets/images/obstacles.png")
                                             : const AssetImage(
                                                 "assets/images/ground.png"),
-                            // : const AssetImage("assets/images/.png"),
+                            // : const AssetImage("assets/images/fog.png"),
                             fit: BoxFit.fill,
                           ),
                         ),
