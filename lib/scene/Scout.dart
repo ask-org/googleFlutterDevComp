@@ -1,5 +1,6 @@
 import 'dart:math';
 
+// import 'package:ant_new/scout/collectible.dart';
 import 'package:ant_new/scout/global.dart';
 import 'package:ant_new/scout/player.dart';
 import 'package:ant_new/scout/utils.dart';
@@ -15,13 +16,16 @@ class ScoutPage extends StatefulWidget {
 class _ScoutPageState extends State<ScoutPage> {
   Global global = Global();
   Utils utils = Utils();
-  Player player = Player(
-    className: "medic",
-    carryingLoad: 2,
-    lightSource: 1,
-    health: 10,
-    position: 0,
-  );
+
+  List<Player> players = [];
+
+  // Player player1 = Player(
+  //     className: 'medic', //can move when medic is selected
+  //     lightSource: 2,
+  //     health: 5,
+  //     position: 0);
+
+  dynamic selectedPlayer;
 
   IconData button1 = Icons.arrow_left;
   IconData button2 = Icons.arrow_upward;
@@ -31,13 +35,29 @@ class _ScoutPageState extends State<ScoutPage> {
   bool checkVisible(checkPostion) {
     return utils.isVisible(
         checkPostion: checkPostion,
-        playerPosition: player.position,
+        playerPosition: selectedPlayer.position,
         rows: global.rows,
         cols: global.cols);
   }
 
-  //edit this later
-  List<int> allPositions = List.generate(40, (index) => index);
+  void changePlayer(Player activePlayer) {
+    setState(() {
+      selectedPlayer = activePlayer;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    for (int i = 0; i < 4; i++) {
+      players.add(
+          Player(className: 'scout', lightSource: 1, health: 5, position: 0));
+    }
+    selectedPlayer = players[0];
+    utils.generateCollectables(global.totalCollectableCount);
+    utils.generateObstacles(global.totalObstacleCount);
+    utils.generateEnemies(global.totalEnemyCount);
+  }
 
   int collectableCount = 0;
 
@@ -48,23 +68,21 @@ class _ScoutPageState extends State<ScoutPage> {
   }
 
   int checkAvaliablePosition(currentPosition) {
-    if (allPositions.contains(currentPosition)) {
+    if (utils.allPositions.contains(currentPosition)) {
       return currentPosition;
     } else {
-      return checkAvaliablePosition(randomNumGenerator(allPositions.length));
+      return checkAvaliablePosition(
+          randomNumGenerator(utils.allPositions.length));
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    utils.generateCollectables(global.totalCollectableCount);
-    utils.generateObstacles(global.totalObstacleCount);
-    utils.generateEnemies(global.totalEnemyCount);
-  }
-
-  isPlayer(int currentPosition) {
-    return currentPosition == player.position;
+  bool isPlayer(int currentPosition) {
+    for (int i = 0; i < players.length; i++) {
+      if (currentPosition == players[i].position) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @override
@@ -74,7 +92,7 @@ class _ScoutPageState extends State<ScoutPage> {
         children: [
           Expanded(
             child: GridView.count(
-              crossAxisCount: 5,
+              crossAxisCount: global.cols,
               children: List.generate(
                   global.totalCells,
                   (index) => Container(
@@ -82,34 +100,139 @@ class _ScoutPageState extends State<ScoutPage> {
                           image: DecorationImage(
                             image: isPlayer(index)
                                 ? const AssetImage("assets/images/player.png")
-                                // : checkVisible(index)
-                                : utils.isCollectable(index)
-                                    ? const AssetImage(
-                                        "assets/images/collectable.png")
-                                    : utils.isEnemy(index)
+                                : checkVisible(index)
+                                    ? utils.isCollectable(index)
                                         ? const AssetImage(
-                                            "assets/images/enemy.png")
-                                        : utils.isObstacle(index)
+                                            "assets/images/collectable.png")
+                                        : utils.isEnemy(index)
                                             ? const AssetImage(
-                                                "assets/images/obstacles.png")
-                                            : const AssetImage(
-                                                "assets/images/ground.png"),
-                            // : const AssetImage("assets/images/.png"),
+                                                "assets/images/enemy.png")
+                                            : utils.isObstacle(index)
+                                                ? const AssetImage(
+                                                    "assets/images/obstacles.png")
+                                                : const AssetImage(
+                                                    "assets/images/ground.png")
+                                    : const AssetImage("assets/images/fog.png"),
                             fit: BoxFit.fill,
                           ),
                         ),
                       )),
             ),
           ),
+          SizedBox(
+              width: 500,
+              height: 100,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: players
+                    .map((e) => InkWell(
+                          onTap: () {
+                            setState(() {
+                              changePlayer(e);
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              // height: 50,
+
+                              width: 100,
+                              decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: AssetImage(
+                                          "assets/images/scout.png"))),
+                            ),
+                          ),
+                        ))
+                    .toList(),
+              )),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //   children: [
+          //     InkWell(
+          //       onTap: () {
+          //         // setState(() {
+          //         //   selectedCharacterType = 'scout';
+          //         // });
+          //         // print(selectedCharacterType);
+          //       },
+          //       child: Container(
+          //         height: 50,
+          //         width: 50,
+          //         decoration: BoxDecoration(
+          //             image: const DecorationImage(
+          //                 fit: BoxFit.fill,
+          //                 image: AssetImage("assets/images/scout.png"))),
+          //       ),
+          //     ),
+          //     InkWell(
+          //       // onTap: () {
+          //       //   setState(() {
+          //       //     selectedCharacterType = 'warrior';
+          //       //   });
+          //       //   print(selectedCharacterType);
+          //       // },
+          //       child: Container(
+          //         height: 50,
+          //         width: 50,
+          //         decoration: BoxDecoration(
+          //             image: const DecorationImage(
+          //                 fit: BoxFit.fill,
+          //                 image: AssetImage("assets/images/warrior.png"))),
+          //       ),
+          //     ),
+          //     InkWell(
+          //       onTap: () {
+          //         // setState(() {
+          //         //   selectedCharacterType = 'medic';
+          //         // });
+          //         // print(selectedCharacterType);
+          //       },
+          //       child: Container(
+          //         height: 50,
+          //         width: 50,
+          //         decoration: BoxDecoration(
+          //             image: const DecorationImage(
+          //                 fit: BoxFit.fill,
+          //                 image: AssetImage("assets/images/medic.png"))),
+          //       ),
+          //     ),
+          //     InkWell(
+          //       onTap: () {
+          //         setState(() {
+          //           changePlayer(players[2]);
+          //         });
+          //       },
+          //       child: Container(
+          //         height: 50,
+          //         width: 50,
+          //         decoration: const BoxDecoration(
+          //             image: DecorationImage(
+          //                 fit: BoxFit.fill,
+          //                 image: AssetImage("assets/images/collector.png"))),
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // // const Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //   children: [
+          //     Text('scout'),
+          //     Text('warrior'),
+          //     Text('medic'),
+          //     Text('collector')
+          //   ],
+          // ),
           Text("Garbage collected $collectableCount"),
           Wrap(
             children: [
               IconButton(
                 onPressed: () {
                   setState(() {
-                    player.moveLeft(
+                    selectedPlayer.moveLeft(
                         intendedPosition:
-                            utils.checkPosition(player.position - 1));
+                            utils.checkPosition(selectedPlayer.position - 1));
                   });
                 },
                 icon: Icon(
@@ -120,9 +243,9 @@ class _ScoutPageState extends State<ScoutPage> {
               IconButton(
                 onPressed: () {
                   setState(() {
-                    player.moveUp(
+                    selectedPlayer.moveUp(
                         intendedPosition: utils.checkPosition(
-                            player.position - global.cols as int));
+                            selectedPlayer.position - global.cols as int));
                   });
                 },
                 icon: Icon(
@@ -133,9 +256,9 @@ class _ScoutPageState extends State<ScoutPage> {
               IconButton(
                 onPressed: () {
                   setState(() {
-                    player.moveDown(
+                    selectedPlayer.moveDown(
                         intendedPosition: utils.checkPosition(
-                            player.position + global.cols as int));
+                            selectedPlayer.position + global.cols as int));
                   });
                 },
                 icon: Icon(
@@ -146,9 +269,9 @@ class _ScoutPageState extends State<ScoutPage> {
               IconButton(
                 onPressed: () {
                   setState(() {
-                    player.moveRight(
+                    selectedPlayer.moveRight(
                         intendedPosition:
-                            utils.checkPosition(player.position + 1));
+                            utils.checkPosition(selectedPlayer.position + 1));
                   });
                 },
                 icon: Icon(
