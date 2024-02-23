@@ -33,7 +33,6 @@ class Utils {
           position: index,
           image: "image",
           quantity: 1);
-      print(collectible.toString());
       collectables.add(collectible);
       // collectables.add(collectible);
     }

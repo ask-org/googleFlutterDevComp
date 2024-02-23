@@ -32,11 +32,7 @@ class Player {
   // }
 
   void deleteCollectibles() {
-    print("object");
-    print(Utils.collectables.length);
-
     for (int i = 0; i < Utils.collectables.length; i++) {
-      print(Utils.collectables[i].position);
       if (Utils.collectables[i].position == position) {
         Utils.collectables.removeAt(i);
       }
@@ -52,10 +48,7 @@ class Player {
   //   return null;
   // }
 
-  void moveLeft(
-      {required String intendedPosition, required String characterType}) {
-    if (characterType != className) return;
-
+  void moveLeft({required String intendedPosition}) {
     if (!Global.availableStates.contains(intendedPosition)) {
       throw Exception('Invalid position');
     }
@@ -70,10 +63,7 @@ class Player {
     }
   }
 
-  void moveRight(
-      {required String intendedPosition, required String characterType}) {
-    if (characterType != className) return;
-
+  void moveRight({required String intendedPosition}) {
     if (!Global.availableStates.contains(intendedPosition)) {
       throw Exception('Invalid position');
     }
@@ -87,11 +77,7 @@ class Player {
     }
   }
 
-  void moveUp(
-      {required String intendedPosition, required String characterType}) {
-    print(className);
-    if (characterType != className) return;
-
+  void moveUp({required String intendedPosition}) {
     if (!Global.availableStates.contains(intendedPosition)) {
       throw Exception('Invalid position');
     }
@@ -105,10 +91,7 @@ class Player {
     }
   }
 
-  void moveDown(
-      {required String intendedPosition, required String characterType}) {
-    if (characterType != className) return;
-
+  void moveDown({required String intendedPosition}) {
     if (!Global.availableStates.contains(intendedPosition)) {
       throw Exception('Invalid position');
     }

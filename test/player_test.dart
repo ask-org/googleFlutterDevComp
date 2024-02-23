@@ -4,19 +4,9 @@ import "package:flutter_test/flutter_test.dart";
 void main() {
   test('Player should not move left if we send obstacle as intendedPostion',
       () {
-<<<<<<< HEAD
-    Player player = Player(
-        className: "medic",
-        carryingLoad: 2,
-        lightSource: 1,
-        health: 10,
-        position: 1);
-    player.moveLeft(intendedPosition: 'obstacle', characterType: 'scout');
-=======
     Player player =
         Player(className: "medic", lightSource: 1, health: 10, position: 1);
     player.moveLeft(intendedPosition: 'obstacle');
->>>>>>> origin/managedCollectibles
     expect(player.position, 1);
   });
 
