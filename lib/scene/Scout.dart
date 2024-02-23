@@ -109,7 +109,7 @@ class _ScoutPageState extends State<ScoutPage> {
                                                 "assets/images/enemy.png")
                                             : utils.isObstacle(index)
                                                 ? const AssetImage(
-                                                    "assets/images/obstacles.png")
+                                                    "assets/images/block.png")
                                                 : const AssetImage(
                                                     "assets/images/ground.png")
                                     : const AssetImage("assets/images/fog.png"),
