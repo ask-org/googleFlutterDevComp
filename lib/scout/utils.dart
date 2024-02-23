@@ -96,7 +96,8 @@ class Utils {
       return true;
     }
     // check right
-    else if (checkPostion == playerPosition + 1 && playerPosition % cols != 4) {
+    else if (checkPostion == playerPosition + 1 &&
+        playerPosition % cols != cols - 1) {
       return true;
     }
     // check up

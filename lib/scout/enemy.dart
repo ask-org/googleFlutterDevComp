@@ -1,19 +1,19 @@
 class Enemy {
   String name;
-  int hitPoints;
+  int health;
   int experiencePoints;
   int gold;
-  int damage;
+  int damagePoint;
 
-  Enemy(
-      this.name, this.hitPoints, this.experiencePoints, this.gold, this.damage);
+  Enemy(this.name, this.health, this.experiencePoints, this.gold,
+      this.damagePoint);
 
   void attack() {
-    print("Enemy attacks for $damage damage!");
+    print("Enemy attacks for $damagePoint damage!");
   }
 
   void takeDamage(int damage) {
-    hitPoints -= damage;
+    health -= damage;
     print("Enemy took $damage damage!");
   }
 

@@ -99,11 +99,11 @@ class _ScoutPageState extends State<ScoutPage> {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: isPlayer(index)
-                                ? const AssetImage("assets/images/player.png")
+                                ? const AssetImage("assets/images/warrior.png")
                                 : checkVisible(index)
                                     ? utils.isCollectable(index)
                                         ? const AssetImage(
-                                            "assets/images/collectable.png")
+                                            "assets/images/garbage.png")
                                         : utils.isEnemy(index)
                                             ? const AssetImage(
                                                 "assets/images/enemy.png")
@@ -141,89 +141,12 @@ class _ScoutPageState extends State<ScoutPage> {
                                   image: DecorationImage(
                                       fit: BoxFit.fill,
                                       image: AssetImage(
-                                          "assets/images/scout.png"))),
+                                          "assets/images/warrior.png"))),
                             ),
                           ),
                         ))
                     .toList(),
               )),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //   children: [
-          //     InkWell(
-          //       onTap: () {
-          //         // setState(() {
-          //         //   selectedCharacterType = 'scout';
-          //         // });
-          //         // print(selectedCharacterType);
-          //       },
-          //       child: Container(
-          //         height: 50,
-          //         width: 50,
-          //         decoration: BoxDecoration(
-          //             image: const DecorationImage(
-          //                 fit: BoxFit.fill,
-          //                 image: AssetImage("assets/images/scout.png"))),
-          //       ),
-          //     ),
-          //     InkWell(
-          //       // onTap: () {
-          //       //   setState(() {
-          //       //     selectedCharacterType = 'warrior';
-          //       //   });
-          //       //   print(selectedCharacterType);
-          //       // },
-          //       child: Container(
-          //         height: 50,
-          //         width: 50,
-          //         decoration: BoxDecoration(
-          //             image: const DecorationImage(
-          //                 fit: BoxFit.fill,
-          //                 image: AssetImage("assets/images/warrior.png"))),
-          //       ),
-          //     ),
-          //     InkWell(
-          //       onTap: () {
-          //         // setState(() {
-          //         //   selectedCharacterType = 'medic';
-          //         // });
-          //         // print(selectedCharacterType);
-          //       },
-          //       child: Container(
-          //         height: 50,
-          //         width: 50,
-          //         decoration: BoxDecoration(
-          //             image: const DecorationImage(
-          //                 fit: BoxFit.fill,
-          //                 image: AssetImage("assets/images/medic.png"))),
-          //       ),
-          //     ),
-          //     InkWell(
-          //       onTap: () {
-          //         setState(() {
-          //           changePlayer(players[2]);
-          //         });
-          //       },
-          //       child: Container(
-          //         height: 50,
-          //         width: 50,
-          //         decoration: const BoxDecoration(
-          //             image: DecorationImage(
-          //                 fit: BoxFit.fill,
-          //                 image: AssetImage("assets/images/collector.png"))),
-          //       ),
-          //     ),
-          //   ],
-          // ),
-          // // const Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //   children: [
-          //     Text('scout'),
-          //     Text('warrior'),
-          //     Text('medic'),
-          //     Text('collector')
-          //   ],
-          // ),
           Text("Garbage collected $collectableCount"),
           Wrap(
             children: [
