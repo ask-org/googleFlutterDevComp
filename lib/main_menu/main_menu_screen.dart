@@ -34,32 +34,30 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
             ),
           ),
         ),
-        rectangularMenuArea: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              MyButton(
-                onPressed: () => GoRouter.of(context).push('/play'),
-                child: const Text('Play'),
-              ),
-              _gap,
-              MyButton(
-                onPressed: () => GoRouter.of(context).push('/manage'),
-                child: const Text('Manage'),
-              ),
-              _gap,
-              MyButton(
-                onPressed: () => GoRouter.of(context).push('/store'),
-                child: const Text('store'),
-              ),
-              _gap,
-              MyButton(
-                onPressed: () => GoRouter.of(context).push('/settings'),
-                child: const Text('Settings'),
-              ),
-              _gap,
-            ],
-          ),
+        rectangularMenuArea: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            MyButton(
+              onPressed: () => GoRouter.of(context).push('/play'),
+              child: const Text('Play'),
+            ),
+            _gap,
+            MyButton(
+              onPressed: () => GoRouter.of(context).push('/manage'),
+              child: const Text('Manage'),
+            ),
+            _gap,
+            MyButton(
+              onPressed: () => GoRouter.of(context).push('/store'),
+              child: const Text('store'),
+            ),
+            _gap,
+            MyButton(
+              onPressed: () => GoRouter.of(context).push('/settings'),
+              child: const Text('Settings'),
+            ),
+            _gap,
+          ],
         ),
       ),
     );

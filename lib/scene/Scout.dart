@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:ant_new/scout/global.dart';
 import 'package:ant_new/scout/player.dart';
 import 'package:ant_new/scout/utils.dart';
-import 'package:ant_new/style/palette.dart';
+import 'package:ant_new/style/responsive_dungeon.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -89,36 +89,51 @@ class _ScoutPageState extends State<ScoutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+        body: ResponsiveDungeon(
+      leftResourceArea: Wrap(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              IconButton(
-                  onPressed: () => GoRouter.of(context).go('/'),
-                  icon: const Icon(Icons.arrow_back)),
-              Image.asset(
-                'assets/images/block.png',
-                scale: 2,
-              ),
-              const Text('0'),
-              Image.asset(
-                'assets/images/block.png',
-                scale: 2,
-              ),
-              const Text('0'),
-              Image.asset(
-                'assets/images/block.png',
-                scale: 2,
-              ),
-              const Text('0'),
-              Image.asset(
-                'assets/images/block.png',
-                scale: 2,
-              ),
-              const Text('0'),
-            ],
+          IconButton(
+              onPressed: () => GoRouter.of(context).go('/play'),
+              icon: const Icon(
+                Icons.arrow_back,
+                size: 60,
+              )),
+          Image.asset(
+            'assets/images/block.png',
+            scale: 1.5,
           ),
+          const Text(
+            '0',
+            style: TextStyle(fontSize: 40),
+          ),
+          Image.asset(
+            'assets/images/block.png',
+            scale: 1.5,
+          ),
+          const Text(
+            '0',
+            style: TextStyle(fontSize: 40),
+          ),
+          Image.asset(
+            'assets/images/block.png',
+            scale: 1.5,
+          ),
+          const Text(
+            '0',
+            style: TextStyle(fontSize: 40),
+          ),
+          Image.asset(
+            'assets/images/block.png',
+            scale: 1.5,
+          ),
+          const Text(
+            '0',
+            style: TextStyle(fontSize: 40),
+          ),
+        ],
+      ),
+      squarishMainArea: Column(
+        children: [
           Expanded(
             child: GridView.count(
               crossAxisCount: global.cols,
@@ -176,8 +191,12 @@ class _ScoutPageState extends State<ScoutPage> {
                         ))
                     .toList(),
               )),
-          Text("Garbage collected $collectableCount"),
-          Wrap(
+        ],
+      ),
+      rightControllerArea: Container(
+        // color: Colors.blue,
+        child: Center(
+          child: Wrap(
             children: [
               IconButton(
                 onPressed: () {
@@ -233,8 +252,8 @@ class _ScoutPageState extends State<ScoutPage> {
               ),
             ],
           ),
-        ],
+        ),
       ),
-    );
+    ));
   }
 }

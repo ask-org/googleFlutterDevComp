@@ -1,9 +1,3 @@
-// Copyright 2022, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
-import 'package:ant_new/scene/Card.dart';
-import 'package:ant_new/scene/Scout.dart';
 import 'package:ant_new/style/my_button.dart';
 import 'package:ant_new/style/palette.dart';
 import 'package:flutter/material.dart';
@@ -39,12 +33,7 @@ class GameSelectionScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const CardPage()));
-                    },
+                    onTap: () => GoRouter.of(context).go('/card'),
                     child: Card(
                       color: palette.background4,
                       child: SizedBox(
@@ -52,19 +41,14 @@ class GameSelectionScreen extends StatelessWidget {
                           width: screenWidth * 0.4,
                           child: const Center(
                               child: Text(
-                            'Manage Resource',
+                            'Manage\nResource',
                             style: TextStyle(
                                 fontFamily: 'Permanent Marker', fontSize: 20),
                           ))),
                     ),
                   ),
                   InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ScoutPage()));
-                    },
+                    onTap: () => GoRouter.of(context).go('/outside'),
                     child: Card(
                       color: palette.backgroundPlaySession,
                       child: SizedBox(
@@ -72,7 +56,7 @@ class GameSelectionScreen extends StatelessWidget {
                           width: screenWidth * 0.4,
                           child: const Center(
                               child: Text(
-                            'Enter Dungeon',
+                            'Explore\nOutside',
                             style: TextStyle(
                                 fontFamily: 'Permanent Marker', fontSize: 20),
                           ))),
