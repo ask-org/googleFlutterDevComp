@@ -1,14 +1,15 @@
 import 'dart:math';
 
 import 'package:ant_new/scout/collectible.dart';
+import 'package:ant_new/scout/enemy.dart';
 import 'package:ant_new/scout/global.dart';
 
 class Utils {
   List<int> obstacles = [];
-  static List<dynamic> collectables = [];
-  List<int> enemies = [];
+  static List<Collectible> collectables = [];
+  static List<Enemy> enemies = [];
   int collectableCount = 0;
-  List<int> allPositions = [];
+  static List<int> allPositions = [];
 
   Global global = Global();
   // List<dynamic> Collectibles = [];
@@ -21,6 +22,22 @@ class Utils {
 
   Utils() {
     allPositions = List.generate(global.totalCells, (index) => index);
+  }
+
+  clearAllPos() {
+    allPositions.clear();
+  }
+
+  checkPositon(int pos) {
+    allPositions.contains(pos);
+  }
+
+  removeFromAllPostion(int pos) {
+    allPositions.remove(pos);
+  }
+
+  addToAllPostion(int pos) {
+    allPositions.add(pos);
   }
 
   void generateCollectables(int count) {
@@ -50,11 +67,18 @@ class Utils {
     for (int i = 0; i < count; i++) {
       int index =
           allPositions.removeAt(randomNumGenerator(allPositions.length));
-      enemies.add(index);
+      Enemy enemy = Enemy(
+          name: 'name',
+          health: 10,
+          experiencePoints: 5,
+          gold: 5,
+          damagePoint: 10,
+          position: index);
+      enemies.add(enemy);
     }
   }
 
-  String checkPosition(int position) {
+  String checkField(int position) {
     if (obstacles.contains(position)) {
       return "obstacle";
     } else if (enemies.contains(position)) {
@@ -80,7 +104,12 @@ class Utils {
   }
 
   bool isEnemy(int currentPosition) {
-    return enemies.contains(currentPosition);
+    for (int i = 0; i < enemies.length; i++) {
+      if (enemies[i].position == currentPosition) {
+        return true;
+      }
+    }
+    return false;
   }
 
   bool isVisible(

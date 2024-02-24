@@ -18,13 +18,6 @@ class _ScoutPageState extends State<ScoutPage> {
   Utils utils = Utils();
 
   List<Player> players = [];
-
-  // Player player1 = Player(
-  //     className: 'medic', //can move when medic is selected
-  //     lightSource: 2,
-  //     health: 5,
-  //     position: 0);
-
   dynamic selectedPlayer;
 
   IconData button1 = Icons.arrow_left;
@@ -45,6 +38,10 @@ class _ScoutPageState extends State<ScoutPage> {
       selectedPlayer = activePlayer;
     });
   }
+
+  // choseRandomEnemy() {
+  //   utils.
+  // }
 
   @override
   void initState() {
@@ -68,11 +65,11 @@ class _ScoutPageState extends State<ScoutPage> {
   }
 
   int checkAvaliablePosition(currentPosition) {
-    if (utils.allPositions.contains(currentPosition)) {
+    if (utils.checkPositon(currentPosition)) {
       return currentPosition;
     } else {
       return checkAvaliablePosition(
-          randomNumGenerator(utils.allPositions.length));
+          randomNumGenerator(Utils.allPositions.length));
     }
   }
 
@@ -100,19 +97,19 @@ class _ScoutPageState extends State<ScoutPage> {
                           image: DecorationImage(
                             image: isPlayer(index)
                                 ? const AssetImage("assets/images/warrior.png")
-                                : checkVisible(index)
-                                    ? utils.isCollectable(index)
+                                // : checkVisible(index)
+                                : utils.isCollectable(index)
+                                    ? const AssetImage(
+                                        "assets/images/garbage.png")
+                                    : utils.isEnemy(index)
                                         ? const AssetImage(
-                                            "assets/images/garbage.png")
-                                        : utils.isEnemy(index)
+                                            "assets/images/enemy.png")
+                                        : utils.isObstacle(index)
                                             ? const AssetImage(
-                                                "assets/images/enemy.png")
-                                            : utils.isObstacle(index)
-                                                ? const AssetImage(
-                                                    "assets/images/block.png")
-                                                : const AssetImage(
-                                                    "assets/images/ground.png")
-                                    : const AssetImage("assets/images/fog.png"),
+                                                "assets/images/block.png")
+                                            : const AssetImage(
+                                                "assets/images/ground.png"),
+                            // : const AssetImage("assets/images/fog.png"),
                             fit: BoxFit.fill,
                           ),
                         ),
@@ -155,7 +152,7 @@ class _ScoutPageState extends State<ScoutPage> {
                   setState(() {
                     selectedPlayer.moveLeft(
                         intendedPosition:
-                            utils.checkPosition(selectedPlayer.position - 1));
+                            utils.checkField(selectedPlayer.position - 1));
                   });
                 },
                 icon: Icon(
@@ -167,7 +164,7 @@ class _ScoutPageState extends State<ScoutPage> {
                 onPressed: () {
                   setState(() {
                     selectedPlayer.moveUp(
-                        intendedPosition: utils.checkPosition(
+                        intendedPosition: utils.checkField(
                             selectedPlayer.position - global.cols as int));
                   });
                 },
@@ -180,7 +177,7 @@ class _ScoutPageState extends State<ScoutPage> {
                 onPressed: () {
                   setState(() {
                     selectedPlayer.moveDown(
-                        intendedPosition: utils.checkPosition(
+                        intendedPosition: utils.checkField(
                             selectedPlayer.position + global.cols as int));
                   });
                 },
@@ -194,7 +191,7 @@ class _ScoutPageState extends State<ScoutPage> {
                   setState(() {
                     selectedPlayer.moveRight(
                         intendedPosition:
-                            utils.checkPosition(selectedPlayer.position + 1));
+                            utils.checkField(selectedPlayer.position + 1));
                   });
                 },
                 icon: Icon(
