@@ -1,10 +1,11 @@
 import 'dart:math';
 
-// import 'package:ant_new/scout/collectible.dart';
 import 'package:ant_new/scout/global.dart';
 import 'package:ant_new/scout/player.dart';
 import 'package:ant_new/scout/utils.dart';
+import 'package:ant_new/style/palette.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ScoutPage extends StatefulWidget {
   const ScoutPage({super.key});
@@ -25,12 +26,18 @@ class _ScoutPageState extends State<ScoutPage> {
   //     health: 5,
   //     position: 0);
 
-  dynamic selectedPlayer;
-
   IconData button1 = Icons.arrow_left;
   IconData button2 = Icons.arrow_upward;
   IconData button3 = Icons.arrow_downward;
   IconData button4 = Icons.arrow_right;
+
+  dynamic selectedPlayer;
+
+  void changePlayer(Player activePlayer) {
+    setState(() {
+      selectedPlayer = activePlayer;
+    });
+  }
 
   bool checkVisible(checkPostion) {
     return utils.isVisible(
@@ -38,12 +45,6 @@ class _ScoutPageState extends State<ScoutPage> {
         playerPosition: selectedPlayer.position,
         rows: global.rows,
         cols: global.cols);
-  }
-
-  void changePlayer(Player activePlayer) {
-    setState(() {
-      selectedPlayer = activePlayer;
-    });
   }
 
   @override
@@ -90,6 +91,34 @@ class _ScoutPageState extends State<ScoutPage> {
     return Scaffold(
       body: Column(
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconButton(
+                  onPressed: () => GoRouter.of(context).go('/'),
+                  icon: const Icon(Icons.arrow_back)),
+              Image.asset(
+                'assets/images/block.png',
+                scale: 2,
+              ),
+              const Text('0'),
+              Image.asset(
+                'assets/images/block.png',
+                scale: 2,
+              ),
+              const Text('0'),
+              Image.asset(
+                'assets/images/block.png',
+                scale: 2,
+              ),
+              const Text('0'),
+              Image.asset(
+                'assets/images/block.png',
+                scale: 2,
+              ),
+              const Text('0'),
+            ],
+          ),
           Expanded(
             child: GridView.count(
               crossAxisCount: global.cols,
