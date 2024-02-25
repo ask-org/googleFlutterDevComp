@@ -60,7 +60,8 @@ class _ScoutPageState extends State<ScoutPage> {
     selectedPlayer = players[0];
     utils.generateCollectables(global.totalCollectableCount);
     utils.generateObstacles(global.totalObstacleCount);
-    utils.generateEnemies(global.totalEnemyCount);
+    utils.generateEnemies(1);
+    // utils.generateEnemies(global.totalEnemyCount);
   }
 
   int collectableCount = 0;
@@ -181,8 +182,6 @@ class _ScoutPageState extends State<ScoutPage> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                              // height: 50,
-
                               width: 100,
                               decoration: const BoxDecoration(
                                   image: DecorationImage(
