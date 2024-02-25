@@ -1,4 +1,4 @@
-import 'package:ant_new/scene/Scout.dart';
+import 'package:ant_new/router.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,13 +11,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
-        ),
-        home: const ScoutPage());
+          scrollbarTheme: ScrollbarThemeData(
+            thumbColor: MaterialStateProperty.all(Colors.black),
+          )),
+      routeInformationProvider: router.routeInformationProvider,
+      routeInformationParser: router.routeInformationParser,
+      routerDelegate: router.routerDelegate,
+    );
   }
 }

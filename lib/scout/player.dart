@@ -6,7 +6,6 @@ class Player {
   int health;
   int position;
   int lightSource;
-  List<int> obstacles = [];
 
   Global global = Global();
   Utils utils = Utils();
@@ -17,10 +16,6 @@ class Player {
     required this.health,
     required this.position,
   });
-
-  void setObstacles(List<int> newObstacles) {
-    obstacles = newObstacles;
-  }
 
   // Collectible? findCollectible(int postion) {
   //   for (int i = 0; i < utils.collectables.length; i++) {
@@ -35,6 +30,7 @@ class Player {
     for (int i = 0; i < Utils.collectables.length; i++) {
       if (Utils.collectables[i].position == position) {
         Utils.collectables.removeAt(i);
+        utils.addToAllPostion(position);
       }
     }
   }
@@ -48,6 +44,15 @@ class Player {
   //   return null;
   // }
 
+  _movePlayer(int newPos, String field) {
+    position = newPos;
+    utils.addToAllPostion(newPos);
+    utils.removeFromAllPostion(position);
+    if (field == 'collectable') {
+      deleteCollectibles();
+    }
+  }
+
   void moveLeft({required String intendedPosition}) {
     if (!Global.availableStates.contains(intendedPosition)) {
       throw Exception('Invalid position');
@@ -55,10 +60,7 @@ class Player {
 
     if (position % global.cols != 0) {
       if (intendedPosition != 'obstacle' && intendedPosition != 'enemy') {
-        position = position - 1;
-        if (intendedPosition == 'collectable') {
-          deleteCollectibles();
-        }
+        _movePlayer(position - 1, intendedPosition);
       }
     }
   }
@@ -69,10 +71,7 @@ class Player {
     }
     if (position % global.cols != global.cols - 1) {
       if (intendedPosition != 'obstacle' && intendedPosition != 'enemy') {
-        position = position + 1;
-        if (intendedPosition == 'collectable') {
-          deleteCollectibles();
-        }
+        _movePlayer(position + 1, intendedPosition);
       }
     }
   }
@@ -83,10 +82,7 @@ class Player {
     }
     if (position >= global.cols) {
       if (intendedPosition != 'obstacle' && intendedPosition != 'enemy') {
-        position = (position - global.cols) as int;
-        if (intendedPosition == 'collectable') {
-          deleteCollectibles();
-        }
+        _movePlayer(position - global.cols as int, intendedPosition);
       }
     }
   }
@@ -97,16 +93,10 @@ class Player {
     }
     if (position < (global.rows - 1) * global.cols) {
       if (intendedPosition != 'obstacle' && intendedPosition != 'enemy') {
-        position = (position + global.cols) as int;
-        if (intendedPosition == 'collectable') {
-          deleteCollectibles();
-        }
+        _movePlayer(position + global.cols as int, intendedPosition);
       }
     }
   }
-
-  // TODO: should delete the collectable if collected.
-  // void collect(Collectible collectible) {}
 
   // TODO: Implement attack method
   void attack() {

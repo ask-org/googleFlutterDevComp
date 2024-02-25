@@ -1,10 +1,11 @@
 import 'dart:math';
 
-// import 'package:ant_new/scout/collectible.dart';
 import 'package:ant_new/scout/global.dart';
 import 'package:ant_new/scout/player.dart';
 import 'package:ant_new/scout/utils.dart';
+import 'package:ant_new/style/responsive_dungeon.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ScoutPage extends StatefulWidget {
   const ScoutPage({super.key});
@@ -18,19 +19,18 @@ class _ScoutPageState extends State<ScoutPage> {
   Utils utils = Utils();
 
   List<Player> players = [];
-
-  // Player player1 = Player(
-  //     className: 'medic', //can move when medic is selected
-  //     lightSource: 2,
-  //     health: 5,
-  //     position: 0);
-
   dynamic selectedPlayer;
 
   IconData button1 = Icons.arrow_left;
   IconData button2 = Icons.arrow_upward;
   IconData button3 = Icons.arrow_downward;
   IconData button4 = Icons.arrow_right;
+
+  void changePlayer(Player activePlayer) {
+    setState(() {
+      selectedPlayer = activePlayer;
+    });
+  }
 
   bool checkVisible(checkPostion) {
     return utils.isVisible(
@@ -40,11 +40,15 @@ class _ScoutPageState extends State<ScoutPage> {
         cols: global.cols);
   }
 
-  void changePlayer(Player activePlayer) {
-    setState(() {
-      selectedPlayer = activePlayer;
-    });
-  }
+  // void changePlayer(Player activePlayer) {
+  //   setState(() {
+  //     selectedPlayer = activePlayer;
+  //   });
+  // }
+
+  // choseRandomEnemy() {
+  //   utils.
+  // }
 
   @override
   void initState() {
@@ -56,7 +60,8 @@ class _ScoutPageState extends State<ScoutPage> {
     selectedPlayer = players[0];
     utils.generateCollectables(global.totalCollectableCount);
     utils.generateObstacles(global.totalObstacleCount);
-    utils.generateEnemies(global.totalEnemyCount);
+    utils.generateEnemies(1);
+    // utils.generateEnemies(global.totalEnemyCount);
   }
 
   int collectableCount = 0;
@@ -68,11 +73,11 @@ class _ScoutPageState extends State<ScoutPage> {
   }
 
   int checkAvaliablePosition(currentPosition) {
-    if (utils.allPositions.contains(currentPosition)) {
+    if (utils.checkPositon(currentPosition)) {
       return currentPosition;
     } else {
       return checkAvaliablePosition(
-          randomNumGenerator(utils.allPositions.length));
+          randomNumGenerator(Utils.allPositions.length));
     }
   }
 
@@ -88,7 +93,50 @@ class _ScoutPageState extends State<ScoutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+        body: ResponsiveDungeon(
+      leftResourceArea: Wrap(
+        children: [
+          IconButton(
+              onPressed: () => GoRouter.of(context).go('/play'),
+              icon: const Icon(
+                Icons.arrow_back,
+                size: 60,
+              )),
+          Image.asset(
+            'assets/images/block.png',
+            scale: 1.5,
+          ),
+          const Text(
+            '0',
+            style: TextStyle(fontSize: 40),
+          ),
+          Image.asset(
+            'assets/images/block.png',
+            scale: 1.5,
+          ),
+          const Text(
+            '0',
+            style: TextStyle(fontSize: 40),
+          ),
+          Image.asset(
+            'assets/images/block.png',
+            scale: 1.5,
+          ),
+          const Text(
+            '0',
+            style: TextStyle(fontSize: 40),
+          ),
+          Image.asset(
+            'assets/images/block.png',
+            scale: 1.5,
+          ),
+          const Text(
+            '0',
+            style: TextStyle(fontSize: 40),
+          ),
+        ],
+      ),
+      squarishMainArea: Column(
         children: [
           Expanded(
             child: GridView.count(
@@ -99,20 +147,20 @@ class _ScoutPageState extends State<ScoutPage> {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: isPlayer(index)
-                                ? const AssetImage("assets/images/player.png")
-                                : checkVisible(index)
-                                    ? utils.isCollectable(index)
+                                ? const AssetImage("assets/images/warrior.png")
+                                // : checkVisible(index)
+                                : utils.isCollectable(index)
+                                    ? const AssetImage(
+                                        "assets/images/garbage.png")
+                                    : utils.isEnemy(index)
                                         ? const AssetImage(
-                                            "assets/images/collectable.png")
-                                        : utils.isEnemy(index)
+                                            "assets/images/enemy.png")
+                                        : utils.isObstacle(index)
                                             ? const AssetImage(
-                                                "assets/images/enemy.png")
-                                            : utils.isObstacle(index)
-                                                ? const AssetImage(
-                                                    "assets/images/obstacles.png")
-                                                : const AssetImage(
-                                                    "assets/images/ground.png")
-                                    : const AssetImage("assets/images/fog.png"),
+                                                "assets/images/block.png")
+                                            : const AssetImage(
+                                                "assets/images/ground.png"),
+                            // : const AssetImage("assets/images/fog.png"),
                             fit: BoxFit.fill,
                           ),
                         ),
@@ -134,105 +182,30 @@ class _ScoutPageState extends State<ScoutPage> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                              // height: 50,
-
                               width: 100,
                               decoration: const BoxDecoration(
                                   image: DecorationImage(
                                       fit: BoxFit.fill,
                                       image: AssetImage(
-                                          "assets/images/scout.png"))),
+                                          "assets/images/warrior.png"))),
                             ),
                           ),
                         ))
                     .toList(),
               )),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //   children: [
-          //     InkWell(
-          //       onTap: () {
-          //         // setState(() {
-          //         //   selectedCharacterType = 'scout';
-          //         // });
-          //         // print(selectedCharacterType);
-          //       },
-          //       child: Container(
-          //         height: 50,
-          //         width: 50,
-          //         decoration: BoxDecoration(
-          //             image: const DecorationImage(
-          //                 fit: BoxFit.fill,
-          //                 image: AssetImage("assets/images/scout.png"))),
-          //       ),
-          //     ),
-          //     InkWell(
-          //       // onTap: () {
-          //       //   setState(() {
-          //       //     selectedCharacterType = 'warrior';
-          //       //   });
-          //       //   print(selectedCharacterType);
-          //       // },
-          //       child: Container(
-          //         height: 50,
-          //         width: 50,
-          //         decoration: BoxDecoration(
-          //             image: const DecorationImage(
-          //                 fit: BoxFit.fill,
-          //                 image: AssetImage("assets/images/warrior.png"))),
-          //       ),
-          //     ),
-          //     InkWell(
-          //       onTap: () {
-          //         // setState(() {
-          //         //   selectedCharacterType = 'medic';
-          //         // });
-          //         // print(selectedCharacterType);
-          //       },
-          //       child: Container(
-          //         height: 50,
-          //         width: 50,
-          //         decoration: BoxDecoration(
-          //             image: const DecorationImage(
-          //                 fit: BoxFit.fill,
-          //                 image: AssetImage("assets/images/medic.png"))),
-          //       ),
-          //     ),
-          //     InkWell(
-          //       onTap: () {
-          //         setState(() {
-          //           changePlayer(players[2]);
-          //         });
-          //       },
-          //       child: Container(
-          //         height: 50,
-          //         width: 50,
-          //         decoration: const BoxDecoration(
-          //             image: DecorationImage(
-          //                 fit: BoxFit.fill,
-          //                 image: AssetImage("assets/images/collector.png"))),
-          //       ),
-          //     ),
-          //   ],
-          // ),
-          // // const Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //   children: [
-          //     Text('scout'),
-          //     Text('warrior'),
-          //     Text('medic'),
-          //     Text('collector')
-          //   ],
-          // ),
-          Text("Garbage collected $collectableCount"),
-          Wrap(
+        ],
+      ),
+      rightControllerArea: Container(
+        // color: Colors.blue,
+        child: Center(
+          child: Wrap(
             children: [
               IconButton(
                 onPressed: () {
                   setState(() {
                     selectedPlayer.moveLeft(
                         intendedPosition:
-                            utils.checkPosition(selectedPlayer.position - 1));
+                            utils.checkField(selectedPlayer.position - 1));
                   });
                 },
                 icon: Icon(
@@ -244,7 +217,7 @@ class _ScoutPageState extends State<ScoutPage> {
                 onPressed: () {
                   setState(() {
                     selectedPlayer.moveUp(
-                        intendedPosition: utils.checkPosition(
+                        intendedPosition: utils.checkField(
                             selectedPlayer.position - global.cols as int));
                   });
                 },
@@ -257,7 +230,7 @@ class _ScoutPageState extends State<ScoutPage> {
                 onPressed: () {
                   setState(() {
                     selectedPlayer.moveDown(
-                        intendedPosition: utils.checkPosition(
+                        intendedPosition: utils.checkField(
                             selectedPlayer.position + global.cols as int));
                   });
                 },
@@ -271,7 +244,7 @@ class _ScoutPageState extends State<ScoutPage> {
                   setState(() {
                     selectedPlayer.moveRight(
                         intendedPosition:
-                            utils.checkPosition(selectedPlayer.position + 1));
+                            utils.checkField(selectedPlayer.position + 1));
                   });
                 },
                 icon: Icon(
@@ -281,8 +254,8 @@ class _ScoutPageState extends State<ScoutPage> {
               ),
             ],
           ),
-        ],
+        ),
       ),
-    );
+    ));
   }
 }
