@@ -81,7 +81,7 @@ class Utils {
   String checkField(int position) {
     if (obstacles.contains(position)) {
       return "obstacle";
-    } else if (enemies.contains(position)) {
+    } else if (isEnemy(position)) {
       return "enemy";
     } else if (isCollectable(position)) {
       return "collectable";
