@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:ant_new/router.dart';
 import 'package:ant_new/scout/global.dart';
 import 'package:ant_new/scout/player.dart';
 import 'package:ant_new/scout/utils.dart';
@@ -92,6 +92,8 @@ class _ScoutPageState extends State<ScoutPage> {
 
   @override
   Widget build(BuildContext context) {
+    double deviceHeight = MediaQuery.of(context).size.height;
+    double deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         body: ResponsiveDungeon(
       leftResourceArea: Wrap(
@@ -133,54 +135,55 @@ class _ScoutPageState extends State<ScoutPage> {
           const Text(
             '0',
             style: TextStyle(fontSize: 40),
-          ),
+          )
         ],
       ),
-      squarishMainArea: Column(
-        children: [
-          Expanded(
-            child: GridView.count(
-              crossAxisCount: global.cols,
-              children: List.generate(
-                  global.totalCells,
-                  (index) => Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: isPlayer(index)
-                                ? const AssetImage("assets/images/warrior.png")
-                                // : checkVisible(index)
-                                : utils.isCollectable(index)
-                                    ? const AssetImage(
-                                        "assets/images/garbage.png")
-                                    : utils.isEnemy(index)
-                                        ? const AssetImage(
-                                            "assets/images/enemy.png")
-                                        : utils.isObstacle(index)
-                                            ? const AssetImage(
-                                                "assets/images/block.png")
-                                            : const AssetImage(
-                                                "assets/images/ground.png"),
-                            // : const AssetImage("assets/images/fog.png"),
-                            fit: BoxFit.fill,
+      squarishMainArea: Container(
+        color: palette.background4,
+        child: Column(
+          children: [
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: global.cols,
+                children: List.generate(
+                    global.totalCells,
+                    (index) => Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: isPlayer(index)
+                                  ? const AssetImage(
+                                      "assets/images/warrior.png")
+                                  // : checkVisible(index)
+                                  : utils.isCollectable(index)
+                                      ? const AssetImage(
+                                          "assets/images/garbage.png")
+                                      : utils.isEnemy(index)
+                                          ? const AssetImage(
+                                              "assets/images/enemy.png")
+                                          : utils.isObstacle(index)
+                                              ? const AssetImage(
+                                                  "assets/images/block.png")
+                                              : const AssetImage(
+                                                  "assets/images/ground.png"),
+                              // : const AssetImage("assets/images/fog.png"),
+                              fit: BoxFit.fill,
+                            ),
                           ),
-                        ),
-                      )),
+                        )),
+              ),
             ),
-          ),
-          SizedBox(
-              width: 500,
-              height: 100,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: players
-                    .map((e) => InkWell(
-                          onTap: () {
-                            setState(() {
-                              changePlayer(e);
-                            });
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+            SizedBox(
+                width: deviceWidth * 0.8,
+                height: deviceHeight * 0.1,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: players
+                      .map((e) => InkWell(
+                            onTap: () {
+                              setState(() {
+                                changePlayer(e);
+                              });
+                            },
                             child: Container(
                               width: 100,
                               decoration: const BoxDecoration(
@@ -189,71 +192,68 @@ class _ScoutPageState extends State<ScoutPage> {
                                       image: AssetImage(
                                           "assets/images/warrior.png"))),
                             ),
-                          ),
-                        ))
-                    .toList(),
-              )),
-        ],
+                          ))
+                      .toList(),
+                )),
+          ],
+        ),
       ),
-      rightControllerArea: Container(
-        // color: Colors.blue,
-        child: Center(
-          child: Wrap(
-            children: [
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    selectedPlayer.moveLeft(
-                        intendedPosition:
-                            utils.checkField(selectedPlayer.position - 1));
-                  });
-                },
-                icon: Icon(
-                  button1,
-                ),
-                iconSize: 60,
+      rightControllerArea: Center(
+        child: Wrap(
+          children: [
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  selectedPlayer.moveLeft(
+                      intendedPosition:
+                          utils.checkField(selectedPlayer.position - 1));
+                });
+              },
+              icon: Icon(
+                button1,
               ),
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    selectedPlayer.moveUp(
-                        intendedPosition: utils.checkField(
-                            selectedPlayer.position - global.cols as int));
-                  });
-                },
-                icon: Icon(
-                  button2,
-                ),
-                iconSize: 60,
+              iconSize: 60,
+            ),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  selectedPlayer.moveUp(
+                      intendedPosition: utils.checkField(
+                          selectedPlayer.position - global.cols as int));
+                });
+              },
+              icon: Icon(
+                button2,
               ),
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    selectedPlayer.moveDown(
-                        intendedPosition: utils.checkField(
-                            selectedPlayer.position + global.cols as int));
-                  });
-                },
-                icon: Icon(
-                  button3,
-                ),
-                iconSize: 60,
+              iconSize: 60,
+            ),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  selectedPlayer.moveDown(
+                      intendedPosition: utils.checkField(
+                          selectedPlayer.position + global.cols as int));
+                });
+              },
+              icon: Icon(
+                button3,
               ),
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    selectedPlayer.moveRight(
-                        intendedPosition:
-                            utils.checkField(selectedPlayer.position + 1));
-                  });
-                },
-                icon: Icon(
-                  button4,
-                ),
-                iconSize: 60,
+              iconSize: 60,
+            ),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  selectedPlayer.moveRight(
+                      intendedPosition:
+                          utils.checkField(selectedPlayer.position + 1));
+                });
+              },
+              icon: Icon(
+                button4,
               ),
-            ],
-          ),
+              iconSize: 60,
+            ),
+          ],
         ),
       ),
     ));
