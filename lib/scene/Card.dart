@@ -44,7 +44,7 @@ class _CardPageState extends State<CardPage> {
       return true;
     } else {
       debugPrint('to the right');
-      return false;
+      return true;
     }
   }
 
