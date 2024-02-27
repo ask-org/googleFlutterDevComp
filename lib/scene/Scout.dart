@@ -43,6 +43,7 @@ class _ScoutPageState extends State<ScoutPage> {
   @override
   void initState() {
     super.initState();
+    utils.repaint();
     for (int i = 0; i < 4; i++) {
       players.add(
           Player(className: 'scout', lightSource: 1, health: 5, position: 0));

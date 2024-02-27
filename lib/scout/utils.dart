@@ -45,7 +45,7 @@ class Utils {
   }
 
   void generateCollectables(int count) {
-    for (int i = 0; i < count; i++) {
+    for (int i = 0; collectables.length < count; i++) {
       int index =
           allPositions.removeAt(randomNumGenerator(allPositions.length));
       Collectible collectible = Collectible(
@@ -60,7 +60,7 @@ class Utils {
   }
 
   void generateObstacles(int count) {
-    for (int i = 0; i < count; i++) {
+    for (int i = 0; obstacles.length < count; i++) {
       int index =
           allPositions.removeAt(randomNumGenerator(allPositions.length));
       obstacles.add(index);
@@ -68,7 +68,7 @@ class Utils {
   }
 
   void generateEnemies(int count) {
-    for (int i = 0; i < count; i++) {
+    for (int i = 0; enemies.length < count; i++) {
       int index =
           allPositions.removeAt(randomNumGenerator(allPositions.length));
       Enemy enemy = Enemy(
@@ -144,5 +144,11 @@ class Utils {
     } else {
       return false;
     }
+  }
+
+  void repaint() {
+    obstacles = [];
+    collectables = [];
+    enemies = [];
   }
 }
