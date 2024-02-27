@@ -19,6 +19,7 @@ class ResponsiveDungeon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double deviceWidth = MediaQuery.of(context).size.width;
     return LayoutBuilder(
       builder: (context, constraints) {
         // This widget wants to fill the whole screen.
@@ -32,60 +33,50 @@ class ResponsiveDungeon extends StatelessWidget {
             children: [
               SafeArea(
                 bottom: false,
-                child: Padding(
-                  padding: padding,
-                  child: topMessageArea,
-                ),
+                child: topMessageArea,
               ),
               SafeArea(
+                top: false,
                 bottom: false,
                 child: Padding(
-                  padding: padding,
+                  padding: const EdgeInsets.only(top: 20),
                   child: leftResourceArea,
                 ),
               ),
               Expanded(
-                child: SafeArea(
-                  top: false,
-                  bottom: false,
-                  minimum: padding,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: deviceWidth * 0.04),
                   child: squarishMainArea,
                 ),
               ),
               SafeArea(
-                bottom: false,
-                child: Padding(
-                  padding: padding,
-                  child: rightControllerArea,
-                ),
+                top: false,
+                child: rightControllerArea,
               ),
             ],
           );
         } else {
           // "Landscape" / "tablet" mode.
-          final isLarge = size.width > 900;
 
           return Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Expanded(
-                  flex: 3,
-                  child: Expanded(
-                    child: SafeArea(
-                      top: false,
-                      left: false,
-                      maintainBottomViewPadding: true,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Padding(
-                          padding: padding,
-                          child: leftResourceArea,
-                        ),
-                      ),
+                child: SafeArea(
+                  top: false,
+                  left: false,
+                  maintainBottomViewPadding: true,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: padding,
+                      child: leftResourceArea,
                     ),
-                  )),
+                  ),
+                ),
+              ),
               Expanded(
-                flex: isLarge ? 10 : 2,
+                flex: 1,
                 child: SafeArea(
                   right: false,
                   maintainBottomViewPadding: true,

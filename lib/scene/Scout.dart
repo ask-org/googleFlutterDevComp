@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:ant_new/scout/enemy.dart';
 import 'package:ant_new/scout/global.dart';
 import 'package:ant_new/scout/player.dart';
@@ -92,6 +91,8 @@ class _ScoutPageState extends State<ScoutPage> {
 
   @override
   Widget build(BuildContext context) {
+    double deviceHeight = MediaQuery.of(context).size.height;
+    double deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         body: ResponsiveDungeon(
       leftResourceArea: Wrap(
@@ -133,7 +134,7 @@ class _ScoutPageState extends State<ScoutPage> {
           const Text(
             '0',
             style: TextStyle(fontSize: 40),
-          ),
+          )
         ],
       ),
       squarishMainArea: Column(
@@ -168,8 +169,8 @@ class _ScoutPageState extends State<ScoutPage> {
             ),
           ),
           SizedBox(
-              width: 500,
-              height: 100,
+              width: deviceWidth * 0.8,
+              height: deviceHeight * 0.1,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: players
@@ -179,16 +180,13 @@ class _ScoutPageState extends State<ScoutPage> {
                               changePlayer(e);
                             });
                           },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              width: 100,
-                              decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                      fit: BoxFit.fill,
-                                      image: AssetImage(
-                                          "assets/images/warrior.png"))),
-                            ),
+                          child: Container(
+                            width: 100,
+                            decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                    fit: BoxFit.fill,
+                                    image: AssetImage(
+                                        "assets/images/warrior.png"))),
                           ),
                         ))
                     .toList(),
