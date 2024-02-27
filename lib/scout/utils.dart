@@ -5,7 +5,7 @@ import 'package:ant_new/scout/enemy.dart';
 import 'package:ant_new/scout/global.dart';
 
 class Utils {
-  List<int> obstacles = [];
+  static List<int> obstacles = [];
   static List<Collectible> collectables = [];
   static List<Enemy> enemies = [];
   int collectableCount = 0;
@@ -17,7 +17,11 @@ class Utils {
   int randomNumGenerator(int max) {
     Random number = Random();
     int num = number.nextInt(max);
-    return num;
+    if (num > -1) {
+      return num;
+    } else {
+      return -num;
+    }
   }
 
   Utils() {

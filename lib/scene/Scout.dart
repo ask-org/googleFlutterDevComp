@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:ant_new/scout/enemy.dart';
 import 'package:ant_new/scout/global.dart';
 import 'package:ant_new/scout/player.dart';
 import 'package:ant_new/scout/utils.dart';
@@ -40,16 +41,6 @@ class _ScoutPageState extends State<ScoutPage> {
         cols: global.cols);
   }
 
-  // void changePlayer(Player activePlayer) {
-  //   setState(() {
-  //     selectedPlayer = activePlayer;
-  //   });
-  // }
-
-  // choseRandomEnemy() {
-  //   utils.
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -60,8 +51,8 @@ class _ScoutPageState extends State<ScoutPage> {
     selectedPlayer = players[0];
     utils.generateCollectables(global.totalCollectableCount);
     utils.generateObstacles(global.totalObstacleCount);
-    utils.generateEnemies(1);
-    // utils.generateEnemies(global.totalEnemyCount);
+    // utils.generateEnemies(1);
+    utils.generateEnemies(global.totalEnemyCount);
   }
 
   int collectableCount = 0;
@@ -88,6 +79,15 @@ class _ScoutPageState extends State<ScoutPage> {
       }
     }
     return false;
+  }
+
+  chooseRandomEnemy() {
+    Enemy chosenRandomEnemy =
+        Utils.enemies[randomNumGenerator(Utils.enemies.length)];
+    chosenRandomEnemy.randomMove();
+    // for (int i = 0; i < Utils.enemies.length; i++) {
+    //   Utils.enemies[i].randomMove();
+    // }
   }
 
   @override
@@ -195,65 +195,66 @@ class _ScoutPageState extends State<ScoutPage> {
               )),
         ],
       ),
-      rightControllerArea: Container(
-        // color: Colors.blue,
-        child: Center(
-          child: Wrap(
-            children: [
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    selectedPlayer.moveLeft(
-                        intendedPosition:
-                            utils.checkField(selectedPlayer.position - 1));
-                  });
-                },
-                icon: Icon(
-                  button1,
-                ),
-                iconSize: 60,
+      rightControllerArea: Center(
+        child: Wrap(
+          children: [
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  selectedPlayer.moveLeft(
+                      intendedPosition:
+                          utils.checkField(selectedPlayer.position - 1));
+                  chooseRandomEnemy();
+                });
+              },
+              icon: Icon(
+                button1,
               ),
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    selectedPlayer.moveUp(
-                        intendedPosition: utils.checkField(
-                            selectedPlayer.position - global.cols as int));
-                  });
-                },
-                icon: Icon(
-                  button2,
-                ),
-                iconSize: 60,
+              iconSize: 60,
+            ),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  selectedPlayer.moveUp(
+                      intendedPosition: utils.checkField(
+                          selectedPlayer.position - global.cols as int));
+                  chooseRandomEnemy();
+                });
+              },
+              icon: Icon(
+                button2,
               ),
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    selectedPlayer.moveDown(
-                        intendedPosition: utils.checkField(
-                            selectedPlayer.position + global.cols as int));
-                  });
-                },
-                icon: Icon(
-                  button3,
-                ),
-                iconSize: 60,
+              iconSize: 60,
+            ),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  selectedPlayer.moveDown(
+                      intendedPosition: utils.checkField(
+                          selectedPlayer.position + global.cols as int));
+                  chooseRandomEnemy();
+                });
+              },
+              icon: Icon(
+                button3,
               ),
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    selectedPlayer.moveRight(
-                        intendedPosition:
-                            utils.checkField(selectedPlayer.position + 1));
-                  });
-                },
-                icon: Icon(
-                  button4,
-                ),
-                iconSize: 60,
+              iconSize: 60,
+            ),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  selectedPlayer.moveRight(
+                      intendedPosition:
+                          utils.checkField(selectedPlayer.position + 1));
+                  chooseRandomEnemy();
+                });
+              },
+              icon: Icon(
+                button4,
               ),
-            ],
-          ),
+              iconSize: 60,
+            ),
+          ],
         ),
       ),
     ));
