@@ -4,9 +4,16 @@ import 'package:ant_new/style/responsive_game_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class GameSelectionScreen extends StatelessWidget {
+class GameSelectionScreen extends StatefulWidget {
   const GameSelectionScreen({super.key});
 
+  @override
+  State<GameSelectionScreen> createState() => _GameSelectionScreenState();
+}
+
+class _GameSelectionScreenState extends State<GameSelectionScreen> {
+  double imgResource = 0.5;
+  double imgDungeon = 0.5;
   @override
   Widget build(BuildContext context) {
     Palette palette = Palette();
@@ -27,32 +34,72 @@ class GameSelectionScreen extends StatelessWidget {
             ),
             cardArea: InkWell(
               onTap: () => GoRouter.of(context).go('/card'),
-              child: Card(
-                color: palette.background4,
-                child: SizedBox(
-                    height: screenHeight * 0.5,
-                    width: screenWidth * 0.4,
-                    child: const Center(
-                        child: Text(
-                      'Manage\nResource',
-                      style: TextStyle(
-                          fontFamily: 'Permanent Marker', fontSize: 20),
-                    ))),
+              child: MouseRegion(
+                onHover: (_) {
+                  setState(() {
+                    imgResource = 0.3;
+                  });
+                },
+                onExit: (_) {
+                  setState(() {
+                    imgResource = 0.5;
+                  });
+                },
+                child: Card(
+                  color: palette.background4,
+                  child: SizedBox(
+                      height: screenHeight * 0.5,
+                      width: screenWidth * 0.4,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Image.asset(
+                            'assets/images/warrior.png',
+                            scale: imgResource,
+                          ),
+                          const Text(
+                            'Manage\nResource',
+                            style: TextStyle(
+                                fontFamily: 'Permanent Marker', fontSize: 20),
+                          ),
+                        ],
+                      )),
+                ),
               ),
             ),
             dungeonArea: InkWell(
               onTap: () => GoRouter.of(context).go('/outside'),
-              child: Card(
-                color: palette.backgroundPlaySession,
-                child: SizedBox(
-                    height: screenHeight * 0.5,
-                    width: screenWidth * 0.4,
-                    child: const Center(
-                        child: Text(
-                      'Explore\nOutside',
-                      style: TextStyle(
-                          fontFamily: 'Permanent Marker', fontSize: 20),
-                    ))),
+              child: MouseRegion(
+                onHover: (event) {
+                  setState(() {
+                    imgDungeon = 0.3;
+                  });
+                },
+                onExit: (event) {
+                  setState(() {
+                    imgDungeon = 0.5;
+                  });
+                },
+                child: Card(
+                  color: palette.backgroundPlaySession,
+                  child: SizedBox(
+                      height: screenHeight * 0.5,
+                      width: screenWidth * 0.4,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Image.asset(
+                            'assets/images/warrior.png',
+                            scale: imgDungeon,
+                          ),
+                          const Text(
+                            'Explore\nOutside',
+                            style: TextStyle(
+                                fontFamily: 'Permanent Marker', fontSize: 20),
+                          ),
+                        ],
+                      )),
+                ),
               ),
             ),
             buttonArea: MyButton(

@@ -42,7 +42,7 @@ class ResponsiveGameMenu extends StatelessWidget {
                   top: false,
                   bottom: false,
                   minimum: padding,
-                  child: cardArea,
+                  child: dungeonArea,
                 ),
               ),
               Expanded(
@@ -50,7 +50,7 @@ class ResponsiveGameMenu extends StatelessWidget {
                   top: false,
                   bottom: false,
                   minimum: padding,
-                  child: dungeonArea,
+                  child: cardArea,
                 ),
               ),
               SafeArea(
@@ -88,7 +88,7 @@ class ResponsiveGameMenu extends StatelessWidget {
                     maintainBottomViewPadding: true,
                     child: Padding(
                       padding: padding,
-                      child: cardArea,
+                      child: dungeonArea,
                     ),
                   ),
                   SafeArea(
@@ -97,7 +97,7 @@ class ResponsiveGameMenu extends StatelessWidget {
                     maintainBottomViewPadding: true,
                     child: Padding(
                       padding: padding,
-                      child: dungeonArea,
+                      child: cardArea,
                     ),
                   ),
                 ],

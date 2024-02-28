@@ -20,19 +20,26 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
     return Scaffold(
       backgroundColor: palette.backgroundMain,
       body: ResponsiveScreen(
-        squarishMainArea: Center(
-          child: Transform.rotate(
-            angle: -0.1,
-            child: const Text(
-              'Ant Quest',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Permanent Marker',
-                fontSize: 75,
-                height: 1,
+        squarishMainArea: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Transform.rotate(
+              angle: -0.1,
+              child: const Text(
+                'Ant Quest',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'Permanent Marker',
+                  fontSize: 75,
+                  height: 1,
+                ),
               ),
             ),
-          ),
+            Image.asset(
+              'assets/images/warrior.png',
+              scale: 0.2,
+            )
+          ],
         ),
         rectangularMenuArea: Column(
           mainAxisAlignment: MainAxisAlignment.center,
