@@ -12,8 +12,8 @@ class GameSelectionScreen extends StatefulWidget {
 }
 
 class _GameSelectionScreenState extends State<GameSelectionScreen> {
-  double imgResource = 0.5;
-  double imgDungeon = 0.5;
+  double imgResource = 3;
+  double imgDungeon = 3;
   @override
   Widget build(BuildContext context) {
     Palette palette = Palette();
@@ -37,12 +37,12 @@ class _GameSelectionScreenState extends State<GameSelectionScreen> {
               child: MouseRegion(
                 onHover: (_) {
                   setState(() {
-                    imgResource = 0.3;
+                    imgResource = 2.5;
                   });
                 },
                 onExit: (_) {
                   setState(() {
-                    imgResource = 0.5;
+                    imgResource = 3;
                   });
                 },
                 child: Card(
@@ -54,13 +54,13 @@ class _GameSelectionScreenState extends State<GameSelectionScreen> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Image.asset(
-                            'assets/images/warrior.png',
+                            'assets/images/resource_card.png',
                             scale: imgResource,
                           ),
                           const Text(
-                            'Manage\nResource',
+                            'Manage Resource',
                             style: TextStyle(
-                                fontFamily: 'Permanent Marker', fontSize: 20),
+                                fontFamily: 'Permanent Marker', fontSize: 30),
                           ),
                         ],
                       )),
@@ -72,12 +72,12 @@ class _GameSelectionScreenState extends State<GameSelectionScreen> {
               child: MouseRegion(
                 onHover: (event) {
                   setState(() {
-                    imgDungeon = 0.3;
+                    imgDungeon = 2.5;
                   });
                 },
                 onExit: (event) {
                   setState(() {
-                    imgDungeon = 0.5;
+                    imgDungeon = 3;
                   });
                 },
                 child: Card(
@@ -89,13 +89,13 @@ class _GameSelectionScreenState extends State<GameSelectionScreen> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Image.asset(
-                            'assets/images/warrior.png',
+                            'assets/images/dungeon.png',
                             scale: imgDungeon,
                           ),
                           const Text(
-                            'Explore\nOutside',
+                            'Explore Outside',
                             style: TextStyle(
-                                fontFamily: 'Permanent Marker', fontSize: 20),
+                                fontFamily: 'Permanent Marker', fontSize: 30),
                           ),
                         ],
                       )),

@@ -36,7 +36,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
               ),
             ),
             Image.asset(
-              'assets/images/warrior.png',
+              'assets/images/front.png',
               scale: 0.2,
             )
           ],
