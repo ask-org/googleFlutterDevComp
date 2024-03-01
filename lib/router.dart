@@ -37,7 +37,7 @@ final router = GoRouter(
         GoRoute(
           path: 'settings',
           pageBuilder: (context, state) => buildMyTransition(
-              child: const SettingsScreen(), color: palette.redPen),
+              child: const SettingsScreen(), color: palette.backgroundSettings),
         )
       ],
     ),

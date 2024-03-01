@@ -2,7 +2,6 @@ import 'package:ant_new/style/my_button.dart';
 import 'package:ant_new/style/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:just_audio/just_audio.dart';
 
 class GameSelectionScreen extends StatefulWidget {
   const GameSelectionScreen({super.key});
@@ -12,25 +11,6 @@ class GameSelectionScreen extends StatefulWidget {
 }
 
 class _GameSelectionScreenState extends State<GameSelectionScreen> {
-  AudioPlayer _audioPlayer = AudioPlayer();
-
-  void playDungeonOST() {
-    _audioPlayer = AudioPlayer();
-    _audioPlayer
-        .setAudioSource(AudioSource.asset(
-            'assets/audio/091_Heartbound_OST_Windup_Wonders.mp3'))
-        // ignore: body_might_complete_normally_catch_error
-        .catchError((error) {
-      debugPrint("Error in audio game_selection_mode $error");
-    });
-  }
-
-  @override
-  void dispose() {
-    _audioPlayer.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     Palette palette = Palette();
@@ -73,7 +53,7 @@ class _GameSelectionScreenState extends State<GameSelectionScreen> {
                     ),
                   ),
                   InkWell(
-                    onTap: () => {GoRouter.of(context).go('/outside')},
+                    onTap: () => GoRouter.of(context).go('/outside'),
                     child: Card(
                       color: palette.backgroundPlaySession,
                       child: SizedBox(
