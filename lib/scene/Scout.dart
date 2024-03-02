@@ -6,7 +6,6 @@ import 'package:ant_new/scout/utils.dart';
 import 'package:ant_new/style/responsive_dungeon.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:just_audio/just_audio.dart';
 
 class ScoutPage extends StatefulWidget {
   const ScoutPage({super.key});
@@ -18,21 +17,6 @@ class ScoutPage extends StatefulWidget {
 class _ScoutPageState extends State<ScoutPage> {
   Global global = Global();
   Utils utils = Utils();
-  final AudioPlayer _audioPlayer = AudioPlayer();
-
-  void playDungeonOST() {
-    _audioPlayer.stop();
-    _audioPlayer.setVolume(0.3);
-    _audioPlayer.setLoopMode(LoopMode.one);
-    _audioPlayer
-        .setAudioSource(AudioSource.asset(
-            'assets/audio/091_Heartbound_OST_Windup_Wonders.mp3'))
-        // ignore: body_might_complete_normally_catch_error
-        .catchError((error) {
-      debugPrint("Error in audio scout $error");
-    });
-    _audioPlayer.play();
-  }
 
   List<Player> players = [];
   dynamic selectedPlayer;
@@ -69,12 +53,10 @@ class _ScoutPageState extends State<ScoutPage> {
     utils.generateObstacles(global.totalObstacleCount);
     // utils.generateEnemies(1);
     utils.generateEnemies(global.totalEnemyCount);
-    playDungeonOST();
   }
 
   @override
   void dispose() {
-    _audioPlayer.dispose();
     super.dispose();
   }
 

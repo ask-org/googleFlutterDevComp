@@ -11,19 +11,36 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  static const _gap = SizedBox(height: 60);
+
   @override
   Widget build(BuildContext context) {
+    double deviceHeight = MediaQuery.of(context).size.height;
+    double deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: palette.backgroundSettings,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            const Text('Settings Page'),
-            MyButton(
-                onPressed: () => GoRouter.of(context).go('/'),
-                child: const Text('Back'))
-          ],
+        child: SizedBox(
+          height: deviceHeight * 0.5,
+          width: deviceWidth * 0.8,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              const Text(
+                'Settings',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'Permanent Marker',
+                  fontSize: 55,
+                  height: 1,
+                ),
+              ),
+              _gap,
+              MyButton(
+                  onPressed: () => GoRouter.of(context).go('/'),
+                  child: const Text('Back'))
+            ],
+          ),
         ),
       ),
     );

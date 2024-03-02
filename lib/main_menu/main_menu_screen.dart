@@ -20,8 +20,12 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
   @override
   void initState() {
     super.initState();
+    playMusic();
+  }
+
+  void playMusic() {
     _audioPlayer = AudioPlayer();
-    _audioPlayer.setVolume(0.08);
+    _audioPlayer.setVolume(0.5);
     _audioPlayer
         .setAudioSource(AudioSource.asset(
             'assets/audio/100 Heartbound OST Meandering Shadows.mp3'))
@@ -30,6 +34,14 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
       debugPrint("Error in audio main_menu_screen $error");
     });
     _audioPlayer.play();
+  }
+
+  void play() {
+    _audioPlayer.play();
+  }
+
+  void pause() {
+    _audioPlayer.pause();
   }
 
   Widget _playerButton(PlayerState playerState) {
