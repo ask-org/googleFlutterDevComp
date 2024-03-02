@@ -3,6 +3,7 @@ import "package:ant_new/scout/utils.dart";
 
 class Player {
   String className;
+  String imagePath;
   int health;
   int position;
   int lightSource;
@@ -11,6 +12,7 @@ class Player {
   Utils utils = Utils();
 
   Player({
+    required this.imagePath,
     required this.className,
     required this.lightSource,
     required this.health,
