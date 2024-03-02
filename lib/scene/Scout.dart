@@ -55,6 +55,11 @@ class _ScoutPageState extends State<ScoutPage> {
     utils.generateEnemies(global.totalEnemyCount);
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   int collectableCount = 0;
 
   int randomNumGenerator(int max) {
