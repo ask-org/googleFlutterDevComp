@@ -21,7 +21,9 @@ class _ScoutPageState extends State<ScoutPage> {
   final AudioPlayer _audioPlayer = AudioPlayer();
 
   void playDungeonOST() {
-    _audioPlayer.pause();
+    _audioPlayer.stop();
+    _audioPlayer.setVolume(0.3);
+    _audioPlayer.setLoopMode(LoopMode.one);
     _audioPlayer
         .setAudioSource(AudioSource.asset(
             'assets/audio/091_Heartbound_OST_Windup_Wonders.mp3'))
