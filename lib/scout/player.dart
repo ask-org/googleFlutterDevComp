@@ -3,6 +3,7 @@ import "package:ant_new/scout/utils.dart";
 
 class Player {
   String className;
+  String imagePath;
   int health;
   int position;
   int lightSource;
@@ -11,6 +12,7 @@ class Player {
   Utils utils = Utils();
 
   Player({
+    required this.imagePath,
     required this.className,
     required this.lightSource,
     required this.health,
@@ -59,7 +61,7 @@ class Player {
     }
 
     if (position % global.cols != 0) {
-      if (intendedPosition != 'obstacle' && intendedPosition != 'enemy') {
+      if (intendedPosition != 'obstacle') {
         _movePlayer(position - 1, intendedPosition);
       }
     }
@@ -70,7 +72,7 @@ class Player {
       throw Exception('Invalid position');
     }
     if (position % global.cols != global.cols - 1) {
-      if (intendedPosition != 'obstacle' && intendedPosition != 'enemy') {
+      if (intendedPosition != 'obstacle') {
         _movePlayer(position + 1, intendedPosition);
       }
     }
@@ -81,7 +83,7 @@ class Player {
       throw Exception('Invalid position');
     }
     if (position >= global.cols) {
-      if (intendedPosition != 'obstacle' && intendedPosition != 'enemy') {
+      if (intendedPosition != 'obstacle') {
         _movePlayer(position - global.cols as int, intendedPosition);
       }
     }
@@ -92,7 +94,7 @@ class Player {
       throw Exception('Invalid position');
     }
     if (position < (global.rows - 1) * global.cols) {
-      if (intendedPosition != 'obstacle' && intendedPosition != 'enemy') {
+      if (intendedPosition != 'obstacle') {
         _movePlayer(position + global.cols as int, intendedPosition);
       }
     }

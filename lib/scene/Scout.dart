@@ -44,20 +44,56 @@ class _ScoutPageState extends State<ScoutPage> {
   void initState() {
     super.initState();
     utils.repaint();
-    for (int i = 0; i < 4; i++) {
-      players.add(
-          Player(className: 'scout', lightSource: 1, health: 5, position: 0));
-    }
-    selectedPlayer = players[0];
+    initializePlayer();
+    selectedPlayer = players.isNotEmpty ? players[0] : null;
     utils.generateCollectables(global.totalCollectableCount);
-    utils.generateObstacles(global.totalObstacleCount);
+    utils.generateObstacles(global.totalObstacleCount,
+        excludeIndices: [0, 1, 7, 8, 9]);
     // utils.generateEnemies(1);
     utils.generateEnemies(global.totalEnemyCount);
   }
 
-  @override
-  void dispose() {
-    super.dispose();
+  List<Map<String, dynamic>> playerInfo = [
+    {
+      "imagePath": "assets/images/scout.png",
+      "className": "scout",
+      "lightSource": 2,
+      "health": 5,
+      "position": 0
+    },
+    {
+      "imagePath": "assets/images/warrior.png",
+      "className": "warrior",
+      "lightSource": 1,
+      "health": 8,
+      "position": 0
+    },
+    {
+      "imagePath": "assets/images/player.png",
+      "className": "player",
+      "lightSource": 1,
+      "health": 6,
+      "position": 0
+    },
+    {
+      "imagePath": "assets/images/medic.png",
+      "className": "medic",
+      "lightSource": 1,
+      "health": 4,
+      "position": 0
+    },
+  ];
+
+  void initializePlayer() {
+    for (var info in playerInfo) {
+      players.add(Player(
+          imagePath: info["imagePath"],
+          className: info["className"],
+          lightSource: info["lightSource"],
+          health: info["health"],
+          position: info["position"]));
+    }
+    debugPrint("$playerInfo");
   }
 
   int collectableCount = 0;
@@ -148,30 +184,35 @@ class _ScoutPageState extends State<ScoutPage> {
           Expanded(
             child: GridView.count(
               crossAxisCount: global.cols,
-              children: List.generate(
-                  global.totalCells,
-                  (index) => Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: isPlayer(index)
-                                ? const AssetImage("assets/images/warrior.png")
-                                // : checkVisible(index)
-                                : utils.isCollectable(index)
-                                    ? const AssetImage(
-                                        "assets/images/garbage.png")
-                                    : utils.isEnemy(index)
-                                        ? const AssetImage(
-                                            "assets/images/enemy.png")
-                                        : utils.isObstacle(index)
-                                            ? const AssetImage(
-                                                "assets/images/block.png")
-                                            : const AssetImage(
-                                                "assets/images/ground.png"),
-                            // : const AssetImage("assets/images/fog.png"),
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      )),
+              children: List.generate(global.totalCells, (index) {
+                Player? currentPlayer;
+                for (final player in players) {
+                  if (player.position == index) {
+                    currentPlayer = player;
+                    break;
+                  }
+                }
+                return Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: isPlayer(index)
+                          ? AssetImage(currentPlayer!.imagePath)
+                          // : checkVisible(index)
+                          : utils.isCollectable(index)
+                              ? const AssetImage("assets/images/garbage.png")
+                              : utils.isEnemy(index)
+                                  ? const AssetImage("assets/images/enemy.png")
+                                  : utils.isObstacle(index)
+                                      ? const AssetImage(
+                                          "assets/images/block.png")
+                                      : const AssetImage(
+                                          "assets/images/ground.png"),
+                      // : const AssetImage("assets/images/fog.png"),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                );
+              }),
             ),
           ),
           SizedBox(
@@ -180,19 +221,20 @@ class _ScoutPageState extends State<ScoutPage> {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: players
-                    .map((e) => InkWell(
+                    .map((player) => InkWell(
                           onTap: () {
                             setState(() {
-                              changePlayer(e);
+                              changePlayer(player);
                             });
                           },
                           child: Container(
-                            width: 100,
-                            decoration: const BoxDecoration(
+                            width: 90,
+                            decoration: BoxDecoration(
                                 image: DecorationImage(
                                     fit: BoxFit.fill,
                                     image: AssetImage(
-                                        "assets/images/warrior.png"))),
+                                        playerInfo[players.indexOf(player)]
+                                            ["imagePath"]))),
                           ),
                         ))
                     .toList(),

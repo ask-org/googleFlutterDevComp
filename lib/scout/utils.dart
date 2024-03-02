@@ -59,10 +59,13 @@ class Utils {
     }
   }
 
-  void generateObstacles(int count) {
+  void generateObstacles(int count, {List<int>? excludeIndices}) {
     for (int i = 0; obstacles.length < count; i++) {
       int index =
           allPositions.removeAt(randomNumGenerator(allPositions.length));
+      if (excludeIndices != null && excludeIndices.contains(index)) {
+        continue;
+      }
       obstacles.add(index);
     }
   }
