@@ -197,17 +197,19 @@ class _ScoutPageState extends State<ScoutPage> {
                     image: DecorationImage(
                       image: isPlayer(index)
                           ? AssetImage(currentPlayer!.imagePath)
-                          // : checkVisible(index)
-                          : utils.isCollectable(index)
-                              ? const AssetImage("assets/images/garbage.png")
-                              : utils.isEnemy(index)
-                                  ? const AssetImage("assets/images/enemy.png")
-                                  : utils.isObstacle(index)
+                          : checkVisible(index)
+                              ? utils.isCollectable(index)
+                                  ? const AssetImage(
+                                      "assets/images/garbage.png")
+                                  : utils.isEnemy(index)
                                       ? const AssetImage(
-                                          "assets/images/block.png")
-                                      : const AssetImage(
-                                          "assets/images/ground.png"),
-                      // : const AssetImage("assets/images/fog.png"),
+                                          "assets/images/enemy.png")
+                                      : utils.isObstacle(index)
+                                          ? const AssetImage(
+                                              "assets/images/block.png")
+                                          : const AssetImage(
+                                              "assets/images/ground.png")
+                              : const AssetImage("assets/images/fog.png"),
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -228,7 +230,7 @@ class _ScoutPageState extends State<ScoutPage> {
                             });
                           },
                           child: Container(
-                            width: 90,
+                            width: 75,
                             decoration: BoxDecoration(
                                 image: DecorationImage(
                                     fit: BoxFit.fill,
