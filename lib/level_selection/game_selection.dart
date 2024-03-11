@@ -68,7 +68,7 @@ class _GameSelectionScreenState extends State<GameSelectionScreen> {
               ),
             ),
             dungeonArea: InkWell(
-              onTap: () => GoRouter.of(context).go('/outside'),
+              onTap: () => GoRouter.of(context).go('/choosePlayer'),
               child: MouseRegion(
                 onHover: (event) {
                   setState(() {

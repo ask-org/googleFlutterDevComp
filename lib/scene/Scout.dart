@@ -140,7 +140,7 @@ class _ScoutPageState extends State<ScoutPage> {
       leftResourceArea: Wrap(
         children: [
           IconButton(
-              onPressed: () => GoRouter.of(context).go('/play'),
+              onPressed: () => GoRouter.of(context).go('/choosePlayer'),
               icon: const Icon(
                 Icons.arrow_back,
                 size: 60,

@@ -2,6 +2,7 @@ import 'package:ant_new/level_selection/game_selection.dart';
 import 'package:ant_new/main_menu/main_menu_screen.dart';
 import 'package:ant_new/scene/Card.dart';
 import 'package:ant_new/scene/Scout.dart';
+import 'package:ant_new/scout/choose_player.dart';
 import 'package:ant_new/settings/settings_screen.dart';
 import 'package:ant_new/style/my_transition.dart';
 import 'package:ant_new/style/palette.dart';
@@ -25,7 +26,12 @@ final router = GoRouter(
           ),
         ),
         GoRoute(
-          path: 'outside',
+          path: 'choosePlayer',
+          pageBuilder: (context, state) => buildMyTransition(
+              child: const ChoosePlayerPage(), color: palette.backgroundMain),
+        ),
+        GoRoute(
+          path: 'dungeon',
           pageBuilder: (context, state) => buildMyTransition(
               child: const ScoutPage(), color: palette.backgroundMain),
         ),
