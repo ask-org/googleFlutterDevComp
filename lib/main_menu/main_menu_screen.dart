@@ -112,7 +112,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
             ),
             _gap,
             MyButton(
-              onPressed: () => GoRouter.of(context).push('/store'),
+              onPressed: () => GoRouter.of(context).push('/comingSoon'),
               child: const Text('store'),
             ),
             _gap,

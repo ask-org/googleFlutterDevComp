@@ -1,3 +1,4 @@
+import 'package:ant_new/card/coming_soon.dart';
 import 'package:ant_new/level_selection/game_selection.dart';
 import 'package:ant_new/main_menu/main_menu_screen.dart';
 import 'package:ant_new/scene/Card.dart';
@@ -33,6 +34,11 @@ final router = GoRouter(
           path: 'card',
           pageBuilder: (context, state) => buildMyTransition(
               child: const CardPage(), color: palette.backgroundMain),
+        ),
+        GoRoute(
+          path: 'comingSoon',
+          pageBuilder: (context, state) => buildMyTransition(
+              child: const ComingSoon(), color: palette.backgroundMain),
         ),
         GoRoute(
           path: 'settings',

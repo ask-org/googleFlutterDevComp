@@ -33,7 +33,7 @@ class _GameSelectionScreenState extends State<GameSelectionScreen> {
               ),
             ),
             cardArea: InkWell(
-              onTap: () => GoRouter.of(context).go('/card'),
+              onTap: () => GoRouter.of(context).go('/comingSoon'),
               child: MouseRegion(
                 onHover: (_) {
                   setState(() {

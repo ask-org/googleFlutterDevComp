@@ -146,32 +146,32 @@ class _ScoutPageState extends State<ScoutPage> {
                 size: 60,
               )),
           Image.asset(
-            'assets/images/block.png',
-            scale: 1.5,
+            'assets/images/food.png',
+            scale: 12,
           ),
           const Text(
             '0',
             style: TextStyle(fontSize: 40),
           ),
           Image.asset(
-            'assets/images/block.png',
-            scale: 1.5,
+            'assets/images/wood.png',
+            scale: 12,
           ),
           const Text(
             '0',
             style: TextStyle(fontSize: 40),
           ),
           Image.asset(
-            'assets/images/block.png',
-            scale: 1.5,
+            'assets/images/fertilizer.png',
+            scale: 12,
           ),
           const Text(
             '0',
             style: TextStyle(fontSize: 40),
           ),
           Image.asset(
-            'assets/images/block.png',
-            scale: 1.5,
+            'assets/images/airpack.png',
+            scale: 12,
           ),
           const Text(
             '0',
